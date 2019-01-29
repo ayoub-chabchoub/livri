@@ -1,18 +1,42 @@
-<!--
-  Generated template for the AddProductPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>add-product</ion-title>
+  <ion-navbar color="danger">
+    <ion-title>ajouter produit</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding>
+<ion-content padding class="getstart1">
+
+
+    <form (ngSubmit)="saveDate()">
+        <ion-item>
+          <ion-label>nom : </ion-label>
+          <ion-input type="text" [(ngModel)]="data.name" name="name"></ion-input>
+        </ion-item>
+
+        <ion-item>
+            <ion-label>poids : </ion-label>
+            <ion-input type="number" [(ngModel)]="data.weight" name="weight"   ></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>unité : </ion-label>
+          <!-- <ion-input type="text" [(ngModel)]="data.unit" name="unit"></ion-input> -->
+          <ion-select [(ngModel)]="data.unit" name="unit">
+            <ion-option value="Kg">Kg</ion-option>
+            <ion-option value="g">g</ion-option>
+       </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>prix : </ion-label>
+          <ion-input type="number" [(ngModel)]="data.price" name="price"   ></ion-input>
+      </ion-item>
+
+            
+        <button ion-button type="submit" block>Save</button>
+      </form>
 
 </ion-content>

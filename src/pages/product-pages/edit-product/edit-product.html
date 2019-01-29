@@ -6,13 +6,45 @@
 -->
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>edit-product</ion-title>
+  <ion-navbar color="danger">
+    <ion-title>Modifier produit</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding>
+<ion-content padding class="getstart">
+
+
+
+    <form (ngSubmit)="update()" >
+      <ion-item>
+        <ion-label>nom : </ion-label>
+        <ion-input type="text" [(ngModel)]="data.name" name="name"></ion-input>
+      </ion-item>
+
+      <ion-item>
+          <ion-label>poids : </ion-label>
+          <ion-input type="number" [(ngModel)]="data.weight" name="weight"   ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>unité : </ion-label>
+        <ion-select [(ngModel)]="data.unit" name="unit">
+          <ion-option value="Kg">Kg</ion-option>
+          <ion-option value="g">g</ion-option>
+     </ion-select>
+       </ion-item>
+
+     <ion-item>
+            <ion-label>prix : </ion-label>
+            <ion-input type="number" [(ngModel)]="data.price" name="price"></ion-input>
+      </ion-item>
+
+        <button ion-button type="submit" block  color="secondary">Update</button>
+      </form>
+
+
+
 
 </ion-content>

@@ -4,44 +4,60 @@
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
 -->
+<!-- <div>
 <ion-header>
 
-  <ion-navbar>
-    <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
-  <button ion-button icon-start block (click)="addClient()">
-      <ion-icon name="person-add"></ion-icon>
-     ajouter client
-    </button>
-  </ion-navbar>
+ 
 
-</ion-header>
+</ion-header> -->
 
 
-<ion-content padding>
+<ion-content padding class="getstart">
+    
 
-  <ion-list>
-    <ion-item-sliding *ngFor="let person of data">
-      <ion-item (click)="showClient(person)">
-        <ion-avatar item-start>
-         
-        </ion-avatar>
-        <h2>{{person.name}}</h2>
-        <p>{{person.ville}}</p>
-        <p>{{person.credit}}</p>
+    <!-- <ion-navbar class="element1"> -->
+        <div class="align" >
+        
       
+        <div id="element1">
+            <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
+           </div>
+           <div id="element2">
+              <button ion-button icon-start block color="iobutton" (click)="addClient()">
+                   <ion-icon name="person-add" ></ion-icon>
+                
+                </button>
+           </div>
+      </div>
+    <!--   </ion-navbar> -->
+
+  <ion-list >
+    <ion-item-sliding *ngFor="let person of data" class="transboxf">
+      <ion-item  (click)="showClient(person)" class="transbox">
+   
+        <h2 class="transboxp">{{person.NAME}}</h2>
+        <p >{{person.VILLE}}</p>
+        <h3>credit : {{person.CREDIT}}</h3>
 
       </ion-item>
       <ion-item-options side="left">
- <button ion-button color="primary"  (click)="editClient(person)">
+    <button ion-button color="primary"  (click)="editClient(person)">
           <ion-icon name="ios-create"></ion-icon>
           Edit
         </button>
-
-      </ion-item-options>
-      <ion-item-options side="right">
-        <button ion-button color="danger" (click)="deleteClient(person.id)">
+        <button ion-button color="danger" (click)="presentAlertConfirm(person)">
           <ion-icon name="ios-trash"></ion-icon>
           Delete
+        </button>
+
+       </ion-item-options>
+  <!--    <ion-item-options side="right">
+       
+      </ion-item-options> -->
+      <ion-item-options side="right">
+        <button ion-button color="danger" (click)="call(person)">
+          <ion-icon name="call"></ion-icon>
+          appeler
         </button>
       </ion-item-options>
     </ion-item-sliding>

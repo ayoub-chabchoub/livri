@@ -1,3 +1,54 @@
 page-clients {
 
+  #element1 {display:inline-block;margin-right:10px;width: 80%;border: 0px;margin: 0px;position: 0px;padding: 0px;} 
+#element2 {display:inline-block;width: 15%;padding-bottom: 1px;} 
+
+  
+.align {
+    width: 100%;
+    
+     
+    display: -webkit-flex; /* Safari */
+    -webkit-align-items: center; /* Safari 7.0+ */
+    display: flex;
+    align-items: center;
+  }
+ 
+  .transboxf{
+    margin-bottom: 1%;
+    //position: 5%;
+
+  }
+
+  .transbox {
+    //margin: 30px;
+    background-color: #e67e30;
+    
+    //background-color: transparent;
+    //border: 1px solid rgb(52, 117, 32);
+    //opacity: 0.95;
+   // filter: alpha(opacity=80); /* For IE8 and earlier */
+    box-sizing: border-box;
+  border: 2px solid rgb(161, 150, 150);
+  //border-radius: 4px;
+  
+  font-size: 16px;
+  resize: none;
+  
+  }
+
+.transboxp{
+  font-weight: bold;
+  font-size: large;
+    color:#ffffff;
+    opacity: 1;
+    font-family: Verdana, fantasy;
+    
+  }
+
+
 }
+
+
+
+

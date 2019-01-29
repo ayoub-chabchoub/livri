@@ -4,41 +4,63 @@
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
 -->
+<!--
+  Generated template for the AddProductPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<!--
+  Generated template for the ProductsPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<!-- <div>
 <ion-header>
 
-<ion-navbar>
-  <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
-<button ion-button icon-start block (click)="addProduct()">
-    <ion-icon name="add-circle"></ion-icon>
-   ajouter Product
-  </button>
-</ion-navbar>
+ 
 
-</ion-header>
+</ion-header> -->
 
 
-<ion-content padding>
+<ion-content padding class="getstart">
 
-<ion-list>
-  <ion-item-sliding *ngFor="let product of data">
-    <ion-item (click)="showproduct(product)">
-      <ion-avatar item-start>
-       
-      </ion-avatar>
-      <h2>{{product.NAME}}</h2>
-      <p>{{product.WEIGHT}} {{product.UNIT}}</p>
+  <!-- <ion-navbar class="element1"> -->
+      <div class="align" >
+      
     
+      <div id="element1">
+          <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
+         </div>
+         <div id="element2">
+            <button ion-button icon-start block color="iobutton" (click)="addProduct()">
+                 <ion-icon name="add" ></ion-icon>
+              
+              </button>
+         </div>
+    </div>
+  <!--   </ion-navbar> -->
 
+<ion-list >
+  <ion-item-sliding *ngFor="let product of data" class="transboxf">
+    <ion-item  (click)="showProduct(product)" class="transbox">
+     
+      <h2 class="transboxp">{{product.NAME}}</h2>
+      <p >{{product.WEIGHT}} {{product.UNIT}}</p>
+      <h3>{{product.PRICE}} TND</h3>
+      
+    
     </ion-item>
     <ion-item-options side="left">
-<button ion-button color="primary"  (click)="editProduct(product)">
+  <button ion-button color="primary"  (click)="editProduct(product)">
         <ion-icon name="ios-create"></ion-icon>
         Edit
       </button>
 
     </ion-item-options>
     <ion-item-options side="right">
-      <button ion-button color="danger" (click)="deleteProduct(product.id)">
+      <button ion-button color="danger" (click)="presentAlertConfirm(product)">
         <ion-icon name="ios-trash"></ion-icon>
         Delete
       </button>

@@ -13,31 +13,65 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content padding class="getstart1">
 
     <ion-item>
         <ion-label>name : </ion-label>
-        <ion-label type="text" [(ngModel)]="data.name" name="name"></ion-label>
+        <ion-label type="text">{{client.NAME}}</ion-label>
       </ion-item>
 
       <ion-item>
           <ion-label>adresse : </ion-label>
-          <ion-label type="text" [(ngModel)]="data.adress" name="adress"   ></ion-label>
+          <ion-label type="text" >{{client.ADDRESS}}</ion-label>
       </ion-item>
 
       <ion-item>
         <ion-label>ville : </ion-label>
-        <ion-label type="text" [(ngModel)]="data.ville" name="ville"></ion-label>
+        <ion-label type="text">{{client.VILLE}}</ion-label>
        </ion-item>
 
      <ion-item>
             <ion-label>telephone : </ion-label>
-            <ion-label type="number" [(ngModel)]="data.telephone" name="telephone"></ion-label>
+            <ion-label type="tel">{{client.TELEPHONE}}</ion-label>
       </ion-item>
 
         <ion-item>
           <ion-label>credit : </ion-label>
-          <ion-label type="number" [(ngModel)]="data.credit" name="credit"></ion-label>
+          <ion-label type="number" >{{client.CREDIT}}</ion-label>
        </ion-item>
+       <br/>
+       <h2 class="transboxp">historique livraisons:</h2>
+       <br/>
+       <div>
+         <div>
+           <button ion-button icon-start color="iobutton" (click)="addLivraison()">
+              <ion-icon name="add" ></ion-icon>
+       
+            </button>
+          </div>
+        <div>
+
+
+          <ion-list >
+            <ion-item-sliding *ngFor="let livraison of client.LIVRAISONS" class="transboxf">
+              <ion-item  (click)="showLivraison(livraison)" class="transbox">
+               
+                <h2 class="transboxp">{{livraison.DATE}}</h2>
+                <p >montant payé: {{livraison.MONTANT}}</p>
+                
+              
+              </ion-item>
+
+              <ion-item-options side="right">
+                <button ion-button color="danger" (click)="presentAlertConfirm(livraison)">
+                  <ion-icon name="ios-trash"></ion-icon>
+                  Delete
+                </button>
+              </ion-item-options>
+            </ion-item-sliding>
+          </ion-list>
+          
+         </div>
+       </div>
 
 </ion-content>

@@ -4,8 +4,8 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 
 import { Toast } from '@ionic-native/toast';
-import { HomePage } from '../../home/home';
-import { ClientsPage } from '../clients/clients';
+import { Client } from '../../../classes/client';
+
 
 /**
  * Generated class for the AddClientPage page.
@@ -28,7 +28,7 @@ export class AddClientPage {
     telephone :'' ,
     credit :0
   } 
-  result="";
+
   
     constructor(public navCtrl: NavController, public navParams: NavParams,public sqlite:SQLite,public toast:Toast) {
     }
@@ -42,7 +42,7 @@ export class AddClientPage {
   
     saveDate(){
   
-      this.sqlite.create({
+      /*  this.sqlite.create({
         name: 'data.db',
         location: 'default'
       }).then((db: SQLiteObject) => {
@@ -75,8 +75,15 @@ export class AddClientPage {
               console.log(e);
             }
           );
-        });
-        this.navParams.get("data1").push(this.data);
+        }); 
+        this.navParams.get("home").refresh(); */
+        
+         this.navParams.get("home").data.push(new Client(0, this.data.name,
+          this.data.address,
+          this.data.ville ,
+          this.data.telephone ,
+          this.data.credit,[],this.sqlite,this.toast)); 
+        
         this.navCtrl.pop();
         }
 }
