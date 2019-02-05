@@ -5,9 +5,12 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-
+  <!-- <ion-buttons slot="start">
+    <ion-back-button></ion-back-button>
+  </ion-buttons> -->
   <ion-navbar>
     <ion-title>add-livraison</ion-title>
+    
   </ion-navbar>
 
 </ion-header>
@@ -24,7 +27,7 @@
       <ion-input  *ngIf="this.chDate" type="date"  name="date" formControlName="date"></ion-input>
       
     </ion-item>
-    <span ion-button float-left icon-left clear (click)="changeDate()">
+    <span ion-button float-left icon-left clear (click)="changeDate()" style="background-color: rgba(245, 245, 245, 0.836);">
       <ion-icon name="sync"></ion-icon>
      {{this.textChangeDate}} 
     </span>
@@ -40,16 +43,16 @@
 
   <ion-grid>
     <ion-row style="color:white;font-size:large">
-      <ion-col col-5>
+      <ion-col col-4 >
         <ion-label  >produit</ion-label>
       </ion-col>
-      <ion-col col-2>
+      <ion-col col-3 >
         <ion-label  >nombre</ion-label>
       </ion-col>
-      <ion-col col-2>
+      <ion-col col-2 >
         <ion-label  >prix</ion-label><!--*ngIf="product[i]"-->
        </ion-col>
-       <ion-col col-3>
+       <ion-col col-3 >
           <ion-label >prix total</ion-label>
          </ion-col>
     </ion-row>
@@ -57,7 +60,7 @@
       <!-- Assign the products FormArray to the form
                 where we want to track/generate new input track fields -->
                 <div
-                style="background-color:whitesmoke" 
+                
                 formArrayName="products"
                 margin-bottom>
       
@@ -79,12 +82,13 @@
                               maxlength="50"
                               formControlName="name"></ion-input> -->
                               <ion-grid>
-                                <ion-row>
+                                <ion-row style="background-color: rgba(245, 245, 245, 0.836);">
                                 
-                                  <ion-col col-5>
+                                  <ion-col col-4 class="list_table" ><!--   block-->
                                     <select-searchable
-                                    block
+                                    
                                     item-content
+                                    style="width:100%;"
                                     [(ngModel)]="product[i]"
                                     [items]="products"
                                     itemValueField="ID"
@@ -93,12 +97,13 @@
                                     (onChange)="productSelection($event)"
                                     formControlName="name"
                                     > 
-      
+                                      produit
                                     </select-searchable> <!--  [(ngModel)]="product[i]" -->
                                     <!-- [ngModelOptions]="{standalone: true}" -->
                                   </ion-col>
-                                  <ion-col col-2>
+                                  <ion-col col-3 class="list_table" >
                                     <ion-input 
+                                   
                                     *ngIf="product[i]"
                                     [(ngModel)]="product[i].NUM"
                                       name ="number_of_units"
@@ -107,11 +112,11 @@
                                       ></ion-input><!-- *ngIf="product[i]"
                                         [(ngModel)]="product[i].NUM"  [(ngModel)]="numbers[i]"-->
                                   </ion-col>
-                                  <ion-col col-2>
-                                    <ion-label style="background-color:green;" >{{product[i]?.price}}</ion-label><!--*ngIf="product[i]"-->
+                                  <ion-col col-2 class="list_table" >
+                                    <ion-label  >{{product[i]?.price}}</ion-label><!--*ngIf="product[i]"-->
                                    </ion-col>
-                                   <ion-col col-3>
-                                      <ion-label style="background-color:pink;" >{{product[i]?.TOTAL}}</ion-label>
+                                   <ion-col col-3 class="list_table">
+                                      <ion-label >{{product[i]?.TOTAL}}</ion-label>
                                      </ion-col>
                                 
                                 </ion-row>
@@ -127,6 +132,7 @@
                            float-right
                            ion-button
                            icon-left
+                           style="background-color: rgba(245, 245, 245, 0.8);"
                            clear
                            *ngIf="form.controls.products.length > 0"
                            (click)="removeInputField(i)">
@@ -147,6 +153,7 @@
                       <span
                           ion-button
                           float-left
+                          style="background-color: rgba(245, 245, 245, 0.8);"
                           icon-left
                           clear
                           (click)="addNewInputField()">
@@ -155,7 +162,7 @@
                       </span>
                     </ion-col>
                     <ion-col>
-                      <ion-label *ngIf="!chTotal" style="float:right;font-size:large">total: {{getTotalPrice()}}</ion-label>
+                      <ion-label *ngIf="!chTotal" style="float:right;font-size:large;color:white;">total: {{getTotalPrice()}}</ion-label>
                       <ion-input *ngIf="chTotal" type="number" style="float:right;background-color: white" formControlName="total"></ion-input>
                     </ion-col>
             </ion-row>
@@ -165,6 +172,7 @@
                     ion-button
                     float-right
                     icon-left
+                    style="background-color: rgba(245, 245, 245, 0.8);"
                     clear
                     (click)="changerTotal()">
                       <!-- <ion-icon name="add"></ion-icon> -->

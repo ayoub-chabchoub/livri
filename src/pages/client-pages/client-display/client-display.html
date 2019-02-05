@@ -8,6 +8,17 @@
 
   <ion-navbar>
     <ion-title>client-display</ion-title>
+    <ion-buttons end>
+      <button (click)="editClient()" ion-button icon-only>
+        <ion-icon name="ios-create"></ion-icon>
+      </button>
+      <button (click)="presentAlertConfirmClient()" ion-button icon-only>
+        <ion-icon name="ios-trash"></ion-icon>
+      </button>
+      <button (click)="callNumber()" ion-button icon-only>
+        <ion-icon name="call"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 
 </ion-header>
@@ -70,6 +81,10 @@
               </ion-item-options>
             </ion-item-sliding>
           </ion-list>
+          <span ion-button float-center clear style="background-color: rgba(245, 245, 245, 0.8);" *ngIf="showLoadMoreButton()" (click)="loadLivraisons()">
+              
+             Voir plus 
+            </span>
           
          </div>
        </div>

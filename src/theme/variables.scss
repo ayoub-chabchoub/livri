@@ -46,11 +46,11 @@ $colors: (
 .getstart { 
   background-image: url('../assets/imgs/image23.png');background-repeat: no-repeat;background-size: cover; width: 100%;
   height: 100%;
-  display: inline-block;
+ /*  display: inline-block;
   vertical-align: middle;
   font: 0/0 serif;
-  text-shadow: none;
-  color: transparent;
+  text-shadow: none; */
+  //color: transparent;
   
   }
 
@@ -61,7 +61,7 @@ $colors: (
     vertical-align: middle;
     font: 0/0 serif;
     text-shadow: none;
-    color: transparent;
+    //color: transparent;
     
     }
 
@@ -83,6 +83,12 @@ $colors: (
       height: 100%;
   }
 
+
+  .list_table{
+    border-style: solid;
+    border-color: black;
+
+}
 
 // App iOS Variables
 // --------------------------------------------------

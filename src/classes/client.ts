@@ -8,7 +8,7 @@ export class Client{
     constructor(private id:number,private name:string,private address?:string, private ville?:string, private telephone?:string,
          private credit?:number,private livraisons?,public sqlite?:SQLite,public toast?:Toast){
 
-            livraisons = [];
+            //livraisons = [];
             
     }
 
@@ -44,8 +44,18 @@ export class Client{
         this.livraisons = this.livraisons.concat(livraison);
     }
 
-    set CREDIT(credit){
+    set CREDIT(credit:number){
         this.credit = credit;
+        this.update({ name:this.name,
+            address: this.address,
+            ville : this.ville,
+            telephone :this.telephone,
+            credit : this.credit
+        })
+    }
+
+    clearLivraisons(){
+        this.livraisons = [];
     }
 
     update(data: any): any {
@@ -68,13 +78,13 @@ export class Client{
           this.id,
         ])
         .then((res) => {
-          console.log('Executed SQL insert');
-          this.toast.show('Done data updated!','4000','center').subscribe(
-    /*         toast => {
+          console.log('Executed SQL update');
+        /*  this.toast.show('Done data updated!','4000','center').subscribe(
+             toast => {
               data1[this.index] = data; 
               this.navCtrl.pop();
-            } */
-          );
+            } 
+          );*/
         
         })
                 .catch(e => console.log(e));

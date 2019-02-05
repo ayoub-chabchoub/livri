@@ -4,120 +4,19 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
- <!--  <h2>Welcome to Ionic!</h2>
-  <p>
-    This starter project comes with simple tabs-based layout for apps
-    that are going to primarily use a Tabbed UI.
-  </p>
-  <p>
-    Take a look at the <code>src/pages/</code> directory to add or change tabs,
-    update any existing page or create new pages.
-  </p> -->
-  <!-- Assign the FormGroup of form to the HTML form
-        via a property binding (allowing the component
-        class to communicate/interact with the template -->
-        <form
-        [formGroup]="form"
-        (ngSubmit)="manage(form.value)">
-         <ion-list
-            margin-bottom>
-           <ion-item
-              margin-bottom
-              no-lines>
-              <ion-label floating>Framework name:</ion-label>
-  
-              <!-- Assign our first FormControl of name to the input field -->
-              <ion-input
-                 type="text"
-                 maxlength="40"
-                 formControlName="name"></ion-input>
-              <span>Please enter a framework name of no more than 40 characters</span>
-           </ion-item>
-  
-  
-           <!-- Assign the technologies FormArray to the form
-                where we want to track/generate new input track fields -->
-         <div
-            formArrayName="technologies"
-            margin-bottom>
-  
-  
-              <!-- Assign a FormGroupName property binding to track
-                   and manage each separate generated input field.
-                   Also iterate through the technologies FormArray to
-                   correctly track/render new input fields against
-                   existing fields -->
-              <section
-                 [formGroupName]="i"
-                 *ngFor="let tech of form.controls.technologies.controls; let i = index">
-                 <ion-item-group>
-                     <ion-item-divider color="light">Name #{{ i + 1 }}</ion-item-divider>
-                    <ion-item>
-                       <ion-label floating>Technology name:</ion-label>
-                       <ion-input
-                          type="text"
-                          maxlength="50"
-                          formControlName="name"></ion-input>
-                    </ion-item>
-  
-  
-                    <!-- Allow generated input field to be removed -->
-                    <span
-                       float-right
-                       ion-button
-                       icon-left
-                       clear
-                       *ngIf="form.controls.technologies.length > 1"
-                       (click)="removeInputField(i)">
-                       <ion-icon name="close"></ion-icon>
-                       Remove
-                    </span>
-                 </ion-item-group>
-              </section>
-           </div>
-  
-  
-           <!-- Allow new input field to be generated/added -->
-           <span
-              ion-button
-              float-left
-              icon-left
-              clear
-              (click)="addNewInputField()">
-                 <ion-icon name="add"></ion-icon>
-                 Add a new technology
-           </span>
-  
-  
-        </ion-list>
-  
-  
-        <!-- Only allow form to be submitted IF validation criteria for
-                input fields has been successfully passed -->
-           <button
-            ion-button
-            block
-            margin-top
-            color="primary"
-            text-center
-            [disabled]="!form.valid">Submit</button>
-     </form>
+<ion-content padding class="home_style">
 
-     <ion-fab right bottom (click)="CloseModel()">
-      <button ion-fab>
-        <ion-icon name="checkmark"></ion-icon>
-      </button>
-    </ion-fab>
-    <ion-row *ngFor="let item of filterItems;" (click)="CheckChange(item)" style="border-bottom:1px solid #eee  "
-      align-items-center>
-      <ion-col col-2 text-center style="padding:5px;">
-        <ion-icon *ngIf="item.selected" name="ios-checkmark-circle" color="primary" style="font-size: 26px;"></ion-icon>
-        <ion-icon *ngIf="!item.selected" name="ios-radio-button-off" color="primary" style="font-size: 26px;color: rgb(199, 199, 199);"></ion-icon>
-      </ion-col>
-      <ion-col col-10>
-        {{ item.name}}
-      </ion-col>
-    </ion-row>
+    <h2>
+      <ion-label >
+        {{date}}
+      </ion-label>
+    </h2>
+<div class="centered">
+<h1>credit total:</h1>
+<h2>
   
+    {{credit}}  TND
+  
+</h2>
+</div>
 </ion-content>

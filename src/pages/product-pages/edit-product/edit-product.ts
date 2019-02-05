@@ -19,38 +19,38 @@ import { Toast } from '@ionic-native/toast';
 export class EditProductPage {
 
   data = {
-    name:'' ,
-    weight:0 ,
-    unit:'' ,
-    price : 0 ,
-    
-  } 
-  
-  index=0;
-  data1:any; // list of products
-  product:Product;
-  constructor(public navCtrl: NavController, public navParams: NavParams ,public sqlite:SQLite,public toast:Toast) {
+    name: '',
+    weight: 0,
+    unit: '',
+    price: 0,
 
-    
-    this.data1 = navParams.get('data1')
-    console.log("edit constructor " + this.data1 + " " + navParams.get('id'))
-    for (; this.index < this.data1.length ; this.index ++ ){
-    
-      if (this.data1[this.index].id == navParams.get('id') ){
+  }
 
-        this.product =  this.data1[this.index];
-        //this.data.id = this.data1[this.index].id;
-        this.data.name = this.product.NAME;
-        this.data.weight = this.product.WEIGHT;
-        this.data.unit = this.product.UNIT;
-        this.data.price   = this.product.PRICE;
-        
-        break
-      }
-      
-    }
+  //index=0;
+  //data1:any; // list of products
+  product: Product;
+  constructor(public navCtrl: NavController, public navParams: NavParams, public sqlite: SQLite, public toast: Toast) {
 
-    
+
+    this.product = navParams.get('product');
+    /*  console.log("edit constructor " + this.data1 + " " + navParams.get('id'))
+     for (; this.index < this.data1.length ; this.index ++ ){
+     
+       if (this.data1[this.index].id == navParams.get('id') ){
+ 
+         this.product =  this.data1[this.index]; */
+    //this.data.id = this.data1[this.index].id;
+    this.data.name = this.product.NAME;
+    this.data.weight = this.product.WEIGHT;
+    this.data.unit = this.product.UNIT;
+    this.data.price = this.product.PRICE;
+
+    /*         break
+          }
+          
+        } */
+
+
 
   }
 
@@ -60,12 +60,12 @@ export class EditProductPage {
 
 
 
-update(){
-  this.product.update(this.data);
-  
+  update() {
+    this.product.update(this.data);
 
-this.data1[this.index] = this.product; 
-this.navCtrl.pop();
 
-}
+    //this.data1[this.index] = this.product; 
+    this.navCtrl.pop();
+
+  }
 }

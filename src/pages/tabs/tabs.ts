@@ -13,7 +13,7 @@ import { EditLivraisonPage } from '../edit-livraison/edit-livraison';
 })
 export class TabsPage {
 
-  tab1Root = EditLivraisonPage;
+  tab1Root = HomePage;
   tab2Root = ClientsPage;
   tab3Root = ProductsPage;
 
