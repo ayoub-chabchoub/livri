@@ -20,12 +20,11 @@ export class LivraisonDisplayPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private alertController:AlertController) {
     this.livraison = this.navParams.get("livraison")
-    console.log("livraisons.products");
-    console.dir(this.livraison.PRODUCTS);
+   
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad LivraisonDisplayPage');
+    
   }
 
   presentAlertConfirmLivraison(){

@@ -52,17 +52,11 @@ export class Product {
         this.id,
       ])
         .then((res) => {
-          console.log('Executed SQL insert');
-         /* this.toast.show('Done data updated!', '4000', 'center').subscribe(
-            toast => {
-               data1[this.index] = data;
-              this.navCtrl.pop(); 
-            }
-          );*/
+         
 
         })
-        .catch(e => console.log(e));
-    }).catch(e => console.log(e));
+        .catch(e => {});
+    }).catch(e => {});
 
   }
 
@@ -75,17 +69,10 @@ export class Product {
       .then((db: SQLiteObject) => {
         db.executeSql('DELETE FROM products WHERE id_prd=?', [this.id])
           .then(() => {
-            console.log('Executed SQL delete');
+           
 
-            /*                   this.toast.show('Done data Deleted!','5000','center').subscribe(
-                                     toast => {
-                                       this.getData();
-                                     } 
-                                   ); */
-
-
-          }).catch(e => console.log(e));
-      }).catch(e => console.log(e));
+          }).catch(e => {});
+      }).catch(e => {});
 
   }
 

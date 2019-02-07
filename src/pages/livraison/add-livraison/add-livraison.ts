@@ -1,18 +1,14 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
-import { Toast } from '@ionic-native/toast';
-import { Livraison } from '../../../classes/livraison';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { SelectSearchableComponent } from 'ionic-select-searchable';
-import { Product } from '../../../classes/product';
 import { ProductOrder } from '../../../classes/product_order';
 import { Client } from '../../../classes/client';
 
 import { ProductsPage } from '../../product-pages/products/products';
-import { products } from '../../../assets/Globals';
 import { HomePage } from '../../home/home';
-import { ClientsPageModule } from '../../client-pages/clients/clients.module';
+
 
 /**
  * Generated class for the AddLivraisonPage page.
@@ -28,13 +24,6 @@ import { ClientsPageModule } from '../../client-pages/clients/clients.module';
 })
 export class AddLivraisonPage {
 
-/*   data = {
-    date: '',
-    remarque: '',
-    prix_total: 0,
-    montant: 0,
-
-  } */
   textChangeDate = "changer"
   chDate = false;
   cDate: string;
@@ -44,7 +33,6 @@ export class AddLivraisonPage {
   products = [];
   productsOrigin = [];
   client: Client;
-  //numbers = [];
 
   public form: FormGroup;
 
@@ -52,25 +40,18 @@ export class AddLivraisonPage {
 
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public sqlite: SQLite,
-    public toast: Toast, private _FB: FormBuilder, private toastcntrl: ToastController) {
+     private _FB: FormBuilder, private toastcntrl: ToastController) {
     this.client = this.navParams.get("client");
-    //this.products = [new ProductOrder(0,"ayoub",1,"KG",80),new ProductOrder(1,"ismail",1,"KG",60),new ProductOrder(2,"ala",1,"KG",300)];
     if(ProductsPage.products.length == 0){
         ProductsPage.getData(ProductsPage.products,sqlite,this,toastcntrl)
         
     }
     
-    
-    //this.productsOrigin = this.copyArray(this.products);
-    /*  this.product.splice(0,1);
-     console.dir("products");
-     console.dir(this.products); */
-
     this.cDate = HomePage.getDate();
     // Define the FormGroup object for the form
     // (with sub-FormGroup objects for handling
     // the dynamically generated form input fields)
-    console.log(this.cDate);
+   
     this.form = this._FB.group({
 
 
@@ -94,71 +75,16 @@ export class AddLivraisonPage {
   }
 
   ionViewDidLoad() {
-    /* console.log("load add liv");
-    console.dir(ProductsPage.products);
-    this.products = this.product2ProductOrder(ProductsPage.products);
-    console.log("this.products");
-    
-    console.dir(this.products); */
-    
+
     this.removeInputField(0);
     this.product = [];
-
 
   }
 
   ionViewDidEnter() {
-    console.log("enter 2 add liv");
-    /* let i = 0;
-    while (ProductsPage.products.length > this.productsOrigin.length) {
-
-      for (; i < ProductsPage.products.length; i++) {
-
-        if (!this.exist(ProductsPage.products[i], this.productsOrigin)) { 
-        this.productsOrigin = this.productsOrigin.concat(this.product2ProductOrder([ProductsPage.products[i]]));
-        this.products = this.products.concat(this.product2ProductOrder([ProductsPage.products[i]]));
-        
-        this.showMessage("ajout de " + ProductsPage.products[i].NAME,6000);
-        break;
-      }
-      }
-    }
-
-    i = 0;
-    while (ProductsPage.products.length < this.productsOrigin.length) {
-
-      for (; i < this.productsOrigin.length; i++) {
-
-        if (!this.exist(this.productsOrigin[i], ProductsPage.products)) { 
-          
-        this.productsOrigin.splice(i,1);
-        let index = this.products.indexOf(this.productsOrigin[i])
-        if(index > -1){
-          this.showMessage("supp de " + this.products[index].NAME,6000)
-        this.products.splice(index,1);
-        
-        } 
-        break;
-      } 
-      }
-    } */
-
     this.productsOrigin = this.product2ProductOrder(ProductsPage.products);
     this.remplireProducts();
-
-
   }
- /*  exist(arg0: any, productsOrigin: any[]): any {
-
-    for (let i = 0; i < productsOrigin.length; i++) {
-      if (arg0.ID == productsOrigin[i].ID) {
-        return true;
-      }
-    }
-    return false;
-  } */
-
-
 
   product2ProductOrder(products) {
 
@@ -187,22 +113,19 @@ export class AddLivraisonPage {
     if (this.product.length == 0 || this.product[this.product.length - 1]) {
       const control = <FormArray>this.form.controls.products;
       control.push(this.initProductFields());
-      //this.product.splice(0,1);
     } else {
       let toast = this.toastcntrl.create({
         message: 'remplir le dernier produit',
         duration: 2000
       });
       toast.present();
-      console.dir("remplir le dernier produit");
 
     }
 
   }
 
   getTotalPrice() {
-    //console.log('array ' + this.product.length);
-    //console.dir(this.product);
+    
     let total = 0;
     for (let j = 0; j < this.product.length; j++) {
       if (this.product[j]) {
@@ -263,11 +186,10 @@ export class AddLivraisonPage {
       duration:dur
     });
     toast.present();
-    console.dir(msg);
   }
 
   saveDate() {
-    this.showMessage("saveDate declenchée",6000);
+    
     this.sqlite.create({
       name: 'data.db',
       location: 'default'
@@ -281,12 +203,11 @@ export class AddLivraisonPage {
         this.form.value.montant
       ])
         .then((res) => {                               //add res
-          console.log('Executed SQL insert in livraisons');
-          //this.navCtrl.pop();
+         
            db.executeSql('select last_insert_rowid();',[])
           .then((res) => {
-            console.dir(res.rows.item(0)["last_insert_rowid()"]);//[Object.keys(res.rows.item(0))[0]]);
-            id_liv = res.rows.item(0)["last_insert_rowid()"]; //[Object.keys(res.rows.item(0))[0]];
+            
+            id_liv = res.rows.item(0)["last_insert_rowid()"]; 
 
             for (let i =0; i<this.product.length ; i++){
               if(id_liv){
@@ -296,7 +217,7 @@ export class AddLivraisonPage {
                 this.product[i].NAME,
                 this.product[i].PRICE,
                 this.product[i].NUM
-              ]).then(res => console.dir("produit bien ajouté"))
+              ]).then(res => {})
               .catch(e=> {
                 console.dir("problem of insert in productLiv");
                 console.dir(e);
@@ -309,13 +230,6 @@ export class AddLivraisonPage {
             console.dir("problem while executing select last_insert_rowid();");
             console.dir(e);
           });
-
-         /* db.executeSql('select count(*) from livraisons;',[])
-          .then((res) => {
-            for (var index = 0; index < res.rows.length; index++) {
-              this.showMessage("count = " + res.rows.item(index)['count(*)'],6000);
-            }
-          }); */
          
         }) 
         .catch(e => {
@@ -325,65 +239,13 @@ export class AddLivraisonPage {
           console.log(e);
       
     });
-    //this.navParams.get("home").getData();
-
-    /*  this.navParams.get("home").data.push(new Client(0, this.data.name,
-      this.data.address,
-      this.data.ville ,
-      this.data.telephone ,
-      this.data.credit,this.sqlite,this.toast));
-*//*
-          
-          this.navCtrl.pop(); */
-    //add to database
-  /*   this.client.LIVRAISON = new Livraison(0, this.form.value.date, this.client.ID, this.product,
-      this.form.value.remarque, this.form.value.total, this.form.value.montant, this.sqlite, this.toast); */
-
-   /*  console.dir("resultat finale");
-    console.dir(this.client);
-    console.dir(this.form.value); */
+   
     this.client.CREDIT += (this.form.value.total - this.form.value.montant);
     this.navCtrl.pop();
 
   }
 
-  findMissing(array, array1) {
-    for (let i = 0; i < array.length; i++) {
-      if (array1.indexOf(array[i]) == -1) {
-        return [array[i]];
-      }
-    }
-    return [];
-
-  }
-
   productSelection(event: { component: SelectSearchableComponent, value: any }) {
-    //
-   /*  console.dir('event', event);
-    console.dir('form.value', this.form.value); 
-    console.dir("this.product.length = " + this.product.length );
-    console.dir(this.product[-1]);
-
-    console.dir("avant " + this.products);
-    this.products.splice(this.products.indexOf(event.value),1);
-    if ((this.product.length + this.products.length) != this.productsOrigin.length || this.product.indexOf(undefined)> -1) {
-      this.products = this.products.concat(this.findMissing(this.productsOrigin, this.product.concat(this.products)));
-    }
-    console.dir("apres " + this.products);*/
-
-   /* this.products = this.copyArray(this.productsOrigin);
-     this.product.forEach(function(x){
-      let index = this.products.indexOf(x);
-      if(index > -1){
-        this.products.splice(index,1);
-      }
-    }); 
-    for (let i in this.product){
-      let index = this.products.indexOf(this.product[i]);
-      if(index > -1){
-        this.products.splice(index,1);
-      }
-    }*/
 
     this.remplireProducts();
   }
@@ -405,7 +267,6 @@ export class AddLivraisonPage {
 
     for (let i in this.products){
       if(products[i].ID == arg0.ID){
-        //console.log("supp de " +products[i].NAME);
         return(i);
         
       }
@@ -420,13 +281,10 @@ export class AddLivraisonPage {
       duration: 2000
     });
     toast.present();
-    //console.dir(this.product);
   }
 
   openFromCode() {
-
     this.selectComponent.open();
-
   }
 
 }

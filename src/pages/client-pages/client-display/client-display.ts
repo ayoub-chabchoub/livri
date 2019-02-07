@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, ToastController } from 'ionic-angular';
 import { SQLite , SQLiteObject } from '@ionic-native/sqlite';
-import { Toast } from '@ionic-native/toast';
 import { Livraison } from '../../../classes/livraison';
 import { Client } from '../../../classes/client';
 import { AddLivraisonPage } from '../../livraison/add-livraison/add-livraison';
@@ -25,21 +24,20 @@ export class ClientDisplayPage {
   client: Client;
   noOfLiv : number =3;
   
-  constructor(public navCtrl: NavController, public navParams: NavParams,public sqlite:SQLite,public toast:Toast 
+  constructor(public navCtrl: NavController, public navParams: NavParams,public sqlite:SQLite
     ,public alertController:AlertController, private toastcntrl:ToastController) {
-    console.log("display constructor");
+    
     this.client = this.navParams.get("client");
-    console.log(this.client);
+    
 
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ClientDisplayPage');
+    
   }
 
   ionViewDidEnter(){
-    console.log("ionViewDidEnter")
-    console.dir(this.client.LIVRAISONS);
+   
     this.getData();
   }
 
@@ -49,7 +47,7 @@ export class ClientDisplayPage {
       duration:dur
     });
     toast.present();
-    console.dir(msg);
+    
   }
   
   getData(){
@@ -58,17 +56,12 @@ export class ClientDisplayPage {
       name: 'data.db',
       location: 'default'
     }).then((db: SQLiteObject) => {
-      /*   db.executeSql('CREATE TABLE IF NOT EXISTS livraisons(id_liv INTEGER PRIMARY KEY,date TEXT,id_clt INTEGER, CONSTRAINT fk_column'+
-          ' FOREIGN KEY (id_clt) '+
-          ' REFERENCES clients (id_clt))'
-        , []).then(() => console.log('Executed SQL'))
-              .catch(e => console.log(e)); */
        
         db.executeSql('SELECT * FROM livraisons WHERE id_clt=? ORDER BY date DESC LIMIT ?',[this.client.ID, this.noOfLiv] )
           .then(res=>{
-          console.log('Executed SQL SELECT done' );
+         
           this.client.clearLivraisons();
-          this.showMessage("res.length livraisons = " + res.rows.length , 6000);
+          
           
           for (var index = 0; index < res.rows.length; index++) {
 
@@ -80,12 +73,11 @@ export class ClientDisplayPage {
               res.rows.item(index).remarque ,
               res.rows.item(index).prix_total ,
               res.rows.item(index).montant ,
-              this.sqlite,
-              this.toast
+              this.sqlite
             )
           }
-          }).catch(e => console.log(e));
-      }).catch(e => console.log(e));
+          }).catch(e => {});
+      }).catch(e =>{});
       
 
 
@@ -101,12 +93,12 @@ export class ClientDisplayPage {
           role: 'cancel',
           cssClass: 'secondary',
           handler: (blah) => {
-            console.log('Confirm Cancel: blah');
+            
           }
         }, {
           text: 'oui',
           handler: () => {
-            console.log('Confirm Ok');
+            
             this.deleteLivraison(livraison);
           }
         }
@@ -138,8 +130,8 @@ export class ClientDisplayPage {
 
         db.executeSql('SELECT * FROM productLiv WHERE id_liv=?',[id] )
           .then(res=>{
-          this.showMessage("res.length prod_liv = " + res.rows.length , 6000);
-          console.log('Executed SQL SELECT productLiv done' );
+         
+         
           let product;
           for (var index = 0; index < res.rows.length; index++) {
             
@@ -149,16 +141,13 @@ export class ClientDisplayPage {
             );
             product.NUM = res.rows.item(index).number;
             product.PRICE = res.rows.item(index).price;
-            console.log('product order:' );
-            console.dir(product );
+            
             products.push(product);
            
           }
-       /*    console.dir("prod_livs=");
-          console.dir(products); */
-          }).catch(e => {console.log(e);
-            console.dir("problem with prod_livs");});
-      }).catch(e => console.log(e)); 
+          }).catch(e => {
+            });
+      }).catch(e => {}); 
 
     return products;
   }
@@ -206,12 +195,12 @@ export class ClientDisplayPage {
           role: 'cancel',
           cssClass: 'secondary',
           handler: (blah) => {
-            console.log('Confirm Cancel: blah');
+            
           }
         }, {
           text: 'oui',
           handler: () => {
-            console.log('Confirm Ok');
+            
             this.deleteClient();
           }
         }

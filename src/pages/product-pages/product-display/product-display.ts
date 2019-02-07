@@ -20,12 +20,12 @@ export class ProductDisplayPage {
   constructor(public navCtrl: NavController, public navParams: NavParams, private alertController:AlertController) {
     console.log("display constructor");
     this.product = this.navParams.get("product");
-    console.log(this.product);
+    
 
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ProductDisplayPage');
+    
   }
 
   editProduct(){

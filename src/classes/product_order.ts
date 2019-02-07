@@ -1,10 +1,9 @@
 import { Product } from "./product";
 import { SQLite } from "@ionic-native/sqlite";
-import { Toast } from '@ionic-native/toast';
 
 export class ProductOrder extends Product{
 
-    constructor(id , name,weight?:number,unit?:string,price?:number,private num?:number,private totalPrice?:number,sqlite?:SQLite,toast?:Toast){
+    constructor(id , name,weight?:number,unit?:string,price?:number,private num?:number,private totalPrice?:number,sqlite?:SQLite){
         super(id,name,weight,unit,price,sqlite);
         if(!this.num){
             this.num = 0;

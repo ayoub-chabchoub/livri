@@ -46,6 +46,8 @@ $colors: (
 .getstart { 
   background-image: url('../assets/imgs/image23.png');background-repeat: no-repeat;background-size: cover; width: 100%;
   height: 100%;
+  font-family: 'Segoe Print', fantasy;
+  //font-family: 'Kristen ITC', cursive;
  /*  display: inline-block;
   vertical-align: middle;
   font: 0/0 serif;
@@ -62,26 +64,10 @@ $colors: (
     font: 0/0 serif;
     text-shadow: none;
     //color: transparent;
+    font-family: 'Segoe Print', fantasy;
+    
     
     }
-
-    .myDiv {
-      position: relative;
-      z-index: 1;
-  }
-  
-  .myDiv .bg {
-      position: absolute;
-      z-index: -1;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background-image: url('../assets/imgs/image.png') center center;
-      opacity: .4;
-      width: 100%;
-      height: 100%;
-  }
 
 
   .list_table{
@@ -89,6 +75,7 @@ $colors: (
     border-color: black;
 
 }
+
 
 // App iOS Variables
 // --------------------------------------------------

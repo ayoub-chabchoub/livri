@@ -1,13 +1,10 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, ToastController } from 'ionic-angular';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
-import { Toast } from '@ionic-native/toast';
 import { AddClientPage } from '../add-client/add-client';
 import { EditClientPage } from '../edit-client/edit-client';
 import { CallNumber } from '@ionic-native/call-number';
 import { Storage } from '@ionic/storage';
-
-
 import { ClientDisplayPage } from '../client-display/client-display';
 import { Client } from '../../../classes/client';
 
@@ -28,41 +25,18 @@ export class ClientsPage {
   data: any = [];
   datatmp: any = [];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public sqlite: SQLite, public toast: Toast
+  constructor(public navCtrl: NavController, public navParams: NavParams, public sqlite: SQLite
     , public alertController: AlertController, private callNumber: CallNumber, private storage: Storage, private toastcntrl:ToastController) {
 
-      /* this.storage.get("isDbExist")
-      .then((data) => {
-        this.showMessage(data);
-        if (data === null) {
-          this.createDB();  
-          this.showMessage("data null");   
-        }
-      }); */
 
   }
 
   ionViewDidLoad() {
-    console.log("ionViewDidLoad");
-    
-    /*  console.log("clients in storage:");
-     console.log(this.storage.get("clients"));
-     if(!this.storage.get("clients")){
-       this.getData();
-      
-     }else{
-       this.data = this.storage.get("clients");
-       console.log("data from storage");
-     }
-     if(this.data.length == 0){
-       this.getData();
-     } */
-
      this.getData();
   }
 
   ionViewDidEnter() {
-    console.log("ionViewDidEnter")
+    
     this.data.sort(this.compare);
   }
 
@@ -70,39 +44,6 @@ export class ClientsPage {
     if (a.NAME > b.NAME) return 1;
     else return -1;
   }
-
-  /* private createDB() {
-
-    this.sqlite.create({
-      name: 'data.db',
-      location: 'default'
-    }).then((db: SQLiteObject) => {
-      db.executeSql('CREATE TABLE IF NOT EXISTS clients(id_clt INTEGER PRIMARY KEY,name TEXT,address TEXT, ville TEXT, telephone Text , credit FLOAT)'
-        , []).then(() => {
-          this.showMessage('Executed SQL 1');
-          db.executeSql('CREATE TABLE IF NOT EXISTS livraisons(id_liv INTEGER PRIMARY KEY,date TEXT,id_clt INTEGER, ' +
-            'remarque text ,prix_total FLOAT , montant FLOAT, CONSTRAINT fk_column' +
-            ' FOREIGN KEY (id_clt) REFERENCES clients (id_clt) on delete cascade);'
-            , []).then(() => {
-              this.showMessage('Executed SQL 2',4000);
-              db.executeSql('CREATE TABLE IF NOT EXISTS products(id_prd INTEGER PRIMARY KEY,name TEXT,weight FLOAT, unit TEXT ,price FLOAT);'
-                , []).then(() => {this.showMessage('Executed SQL 3',6000);
-                
-                db.executeSql('CREATE TABLE IF NOT EXISTS productLiv(id_prd INTEGER, id_liv INTEGER,name TEXT , price FLOAT , number INTEGER, '+
-                'PRIMARY KEY (id_prd,id_liv) , '+
-                'foreign key (id_prd) references products (id_prd),foreign key (id_liv) references livraisons (id_liv) on delete cascade);'
-                , []).then(() => {this.showMessage('Executed SQL 4',8000);
-                this.storage.set("isDbExist","true");
-              }).catch(e => this.showMessage("problem sql 4 " + e));
-                
-             }).catch(e => this.showMessage("problem sql 3 " + e));
-            }).catch(e => this.showMessage("problem sql 2 " + e));
-        })
-        .catch(e => this.showMessage("problem sql 1 " + e));
-    })
-      .catch(e => this.showMessage(e));
-
-  } */
 
   showMessage(msg,dur =2000){
     let toast = this.toastcntrl.create({
@@ -113,10 +54,10 @@ export class ClientsPage {
   }
 
   doRefresh(refresher) {
-    console.log('Begin async operation', refresher);
+    
     this.getData();
     setTimeout(() => {
-      console.log('Async operation has ended');
+      
       refresher.complete();
     }, 2000);
   }
@@ -127,10 +68,10 @@ export class ClientsPage {
   }
 
   call(client) {
-    console.log("phone call " + client.TELEPHONE);
+    this.showMessage("phone call " + client.TELEPHONE);
     this.callNumber.callNumber(client.TELEPHONE, true)
-      .then(res => console.log('Launched dialer!', res))
-      .catch(err => console.log('Error launching dialer', err));
+      .then(res => {})
+      .catch(err => {});
   }
 
   getData() {
@@ -142,7 +83,7 @@ export class ClientsPage {
 
       db.executeSql('SELECT * FROM clients ORDER BY name', [])
         .then(res => {
-          console.log('Executed SQL SELECT done');
+          
           this.data = [];
           for (var index = 0; index < res.rows.length; index++) {
 
@@ -154,14 +95,13 @@ export class ClientsPage {
               res.rows.item(index).telephone,
               res.rows.item(index).credit,
               [],
-              this.sqlite,
-              this.toast
+              this.sqlite
             ));
           }
         }).catch(e => this.showMessage("probleme in select " + e));
-    }).catch(e => console.log(e));
+    }).catch(e =>{});
     this.data.sort(this.compare);
-    this.showMessage(this.data)
+   
     //this.storage.set("clients",this.data);
   }
 
@@ -183,7 +123,7 @@ export class ClientsPage {
   }
 
   showClient(client) {
-    console.log("show client triggerred");
+    
     this.navCtrl.push(ClientDisplayPage, {
       client: client,
       home:this
@@ -202,12 +142,12 @@ export class ClientsPage {
           role: 'cancel',
           cssClass: 'secondary',
           handler: (blah) => {
-            console.log('Confirm Cancel: blah');
+            
           }
         }, {
           text: 'oui',
           handler: () => {
-            console.log('Confirm Ok');
+            
             this.deleteClient(client);
           }
         }
@@ -251,8 +191,7 @@ export class ClientsPage {
       this.data = this.data.concat(this.datatmp.filter((item) => {
         return (item.NAME.toLowerCase().indexOf(val.toLowerCase()) > 0);
       }));
-      console.log("data " + this.data);
-      console.log("datatmp " + this.datatmp);
+      
     } else {
       this.data = this.copyArray(this.datatmp);
       this.datatmp = [];

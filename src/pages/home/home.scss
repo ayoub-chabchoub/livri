@@ -3,13 +3,36 @@ page-home {
     .home_style{
         background-image: url('../../assets/imgs/image23.png');background-repeat: no-repeat;background-size: cover; width: 100%;
     height: 100%;
+    font-family: 'Kristen ITC', fantasy;
+    
+
     }
 
     .centered {
-        color:white;
+       /*   color:white;
         position:absolute ; /* or fixed */
-        top: 40%;
-        left: 40%;
+       /*  top: 50%;
+        left: 50%; 
+        margin: auto;
+        width: 50%;
+        border: 3px solid green;
+        padding: 10px;*/
+        background-color: rgba($color: rgb(230, 170, 81), $alpha: 0.6);
+        text-align: center;
+        position: absolute;
+        margin: auto;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 60%;
+        height: fit-content;
+        //font-family: 'Kristen ITC', cursive;
+        //font-family: 'Kristen ITC', fantasy;
+        //font-family: 'Bowlby One SC', cursive;
+        //flex: 1;
+        
+        border-radius: 9px;
        
     }
 

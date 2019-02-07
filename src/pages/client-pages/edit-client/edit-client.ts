@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { SQLite , SQLiteObject } from '@ionic-native/sqlite';
-import { Toast } from '@ionic-native/toast';
-import { ClientsPage } from '../clients/clients';
+import { SQLite } from '@ionic-native/sqlite';
 import {Client} from '../../../classes/client';
 
 /**
@@ -27,37 +25,21 @@ export class EditClientPage {
     credit : 0 ,
     
   } 
-  
- // index=0;
-  //data1:any; // list of clients
-  client:Client;
-  constructor(public navCtrl: NavController, public navParams: NavParams ,public sqlite:SQLite,public toast:Toast) {
 
-    
- /*   this.data1 = navParams.get('data1')
-     console.log("edit constructor " + this.data1 + " " + navParams.get('id'))
-    for (; this.index < this.data1.length ; this.index ++ ){
-    
-      if (this.data1[this.index].id == navParams.get('id') ){ */
+  client:Client;
+  constructor(public navCtrl: NavController, public navParams: NavParams ,public sqlite:SQLite) {
+
 
         this.client =  this.navParams.get('client');
-        //this.data.id = this.data1[this.index].id;
         this.data.name = this.client.NAME;
         this.data.address = this.client.ADDRESS;
         this.data.ville = this.client.VILLE;
         this.data.telephone   = this.client.TELEPHONE;
         this.data.credit = this.client.CREDIT; 
-       /*  break
-      }
-      
-    } */
-
-    
-
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad EditemployeePage');
+    
   }
 
 
@@ -65,12 +47,8 @@ export class EditClientPage {
 update(){
   
   this.client.update(this.data);
-  
-
-//this.data1[this.index] = this.client; 
-this.navCtrl.pop();
+  this.navCtrl.pop();
 
 }
-
 
 }

@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { SQLite , SQLiteObject } from '@ionic-native/sqlite';
-import { Toast } from '@ionic-native/toast';
-import {Product} from '../../../classes/product';
-import * as globals from '../../../assets/Globals'
+
 
 /**
  * Generated class for the AddProductPage page.
@@ -28,11 +26,11 @@ export class AddProductPage {
   } 
  
   
-    constructor(public navCtrl: NavController, public navParams: NavParams,public sqlite:SQLite,public toast:Toast,private toastcntrl:ToastController) {
+    constructor(public navCtrl: NavController, public navParams: NavParams,public sqlite:SQLite,private toastcntrl:ToastController) {
     }
   
     ionViewDidLoad() {
-      console.log('ionViewDidLoad AddproductPage');
+      
       
     }
   
@@ -42,7 +40,7 @@ export class AddProductPage {
         duration:dur
       });
       toast.present();
-      console.log(msg);
+      
     }
   
     saveDate(){
@@ -58,39 +56,16 @@ export class AddProductPage {
             this.data.price
           ])
           .then((res) => {                               //add res
-            this.showMessage('Executed SQL insert');
-            /* this.toast.show('Done data inserted!','4000','center').subscribe(
-              toast => {
-                this.navCtrl.pop();
-              } 
-            );*/
+            this.showMessage('Produit ajouté');
             this.navParams.get("home").refresh();
             this.navCtrl.pop();
           })
-                  .catch(e => {
-                    this.toast.show('Done data inserted!','4000','center').subscribe(
-                      toast => {
-                        console.log(e);
-                      }
-                    );
+                  .catch(e => {this.showMessage(e);
+             
                   });
         }) .catch(e => {
-          this.toast.show('Done data inserted!','4000','center').subscribe(
-            toast => {
-              console.log(e);
-            }
-          );
+          this.showMessage(e);
         });  
 
-       // globals.productstmp.push(new Product(0,this.data.name,this.data.weight,this.data.unit,this.data.price,this.sqlite,this.toast));
-
-          
-        
-/*           this.navParams.get("home").data.push(new Product(0, this.data.name,
-          this.data.weight,
-          this.data.unit,
-          this.data.price,this.sqlite,this.toast )); */
-
-       
         }
 }
