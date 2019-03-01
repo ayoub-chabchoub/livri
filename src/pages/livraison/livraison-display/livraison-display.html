@@ -50,7 +50,7 @@
                                         <ion-label style="font-size:4vw;" >produit</ion-label>
                                       </ion-col>
                                       <ion-col col-3 class="list_table">
-                                        <ion-label style="font-size:4vw;" >nombre</ion-label>
+                                        <ion-label style="font-size:4vw;" >quantité</ion-label>
                                       </ion-col>
                                       <ion-col col-2 class="list_table">
                                         <ion-label style="font-size:4vw;">prix</ion-label><!--*ngIf="product[i]"-->
@@ -92,6 +92,18 @@
                   
                 </ion-col>
               </ion-row>
+              <ion-row *ngIf="remiseExists">
+                  <ion-col>
+                     <ion-label style="float:right">remise: {{livraison.TOTALPRICE - livraison.TOTALNETTE}}</ion-label>
+                     
+                   </ion-col>
+                 </ion-row>
+                 <ion-row *ngIf="remiseExists">
+                    <ion-col>
+                       <ion-label style="float:right">total nette: {{livraison.TOTALNETTE}}</ion-label>
+                       
+                     </ion-col>
+                   </ion-row>
               <ion-row>
                 <ion-item>
                   <ion-label>montant : </ion-label>

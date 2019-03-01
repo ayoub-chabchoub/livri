@@ -4,7 +4,6 @@ import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 import { AddClientPage } from '../add-client/add-client';
 import { EditClientPage } from '../edit-client/edit-client';
 import { CallNumber } from '@ionic-native/call-number';
-import { Storage } from '@ionic/storage';
 import { ClientDisplayPage } from '../client-display/client-display';
 import { Client } from '../../../classes/client';
 
@@ -21,12 +20,13 @@ import { Client } from '../../../classes/client';
   templateUrl: 'clients.html',
 })
 export class ClientsPage {
-
+  clientsOrigin = [];
   data: any = [];
   datatmp: any = [];
+  showCreditaire: boolean = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public sqlite: SQLite
-    , public alertController: AlertController, private callNumber: CallNumber, private storage: Storage, private toastcntrl:ToastController) {
+    , public alertController: AlertController, private callNumber: CallNumber, private toastcntrl:ToastController) {
 
 
   }
@@ -81,7 +81,7 @@ export class ClientsPage {
     }).then((db: SQLiteObject) => {
 
 
-      db.executeSql('SELECT * FROM clients ORDER BY name', [])
+      db.executeSql('SELECT * FROM clients ORDER BY name;', [])
         .then(res => {
           
           this.data = [];
@@ -98,13 +98,30 @@ export class ClientsPage {
               this.sqlite
             ));
           }
-        }).catch(e => this.showMessage("probleme in select " + e));
+        }).catch((e) => {this.showMessage("probleme in select ")
+        console.dir(e);});
     }).catch(e =>{});
     this.data.sort(this.compare);
    
     //this.storage.set("clients",this.data);
   }
 
+  getCreditaire(){
+    console.dir("getCreditaire");
+    if(!this.showCreditaire){
+      this.clientsOrigin = this.copyArray(this.data);
+      this.data = this.clientsOrigin.filter((item) => {
+          return (item.CREDIT > 0)
+      });
+      this.showCreditaire = true;
+      console.dir(this.data);
+      console.dir(this.showCreditaire);
+    }else{
+      this.data = this.clientsOrigin;
+      this.clientsOrigin = [];
+      this.showCreditaire = false;
+    }
+  }
 
   addClient() {
     this.navCtrl.push(AddClientPage, { home: this });

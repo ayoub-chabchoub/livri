@@ -1,0 +1,74 @@
+<!--
+  Generated template for the CleanPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>clean</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding class="getstart">
+
+  <p>
+      Cette page vous permet de supprimer les anciennes livraisons ou 
+      approvisionnement sans aucun effet sur les crédits des clients 
+      où les stocks courants des produits, mais ceci va avoir un effet
+      sur l'état de vente des périodes supprimées, les livraisons et 
+      les approvisionnements supprimés ne sont plus accessibles.
+  </p>
+  <div class="divButton" (click)="showLivraisonsClean()">
+    Livraisons
+  </div>
+  <p></p>
+  <ion-grid *ngIf="shLiv" style="border:bold;">
+    <ion-row class="back">
+      <ion-col class="input">
+        <ion-label>Date de début:</ion-label>
+        <ion-datetime placeholder="click" [(ngModel)]="begin" displayFormat="DDDD MMM D, YYYY"
+          monthShortNames="jan, fev, mar,avr,mai,jun,jul,aug,sep,oct,nov,dec"
+          dayShortNames="dim, lun, mar, mer ,jeu ,ven ,sam">
+        </ion-datetime>
+      </ion-col>
+      <ion-col class="input">
+        <ion-label>Date de fin:</ion-label>
+        <ion-datetime [(ngModel)]="end" displayFormat="DD/MM/YYYY"
+          monthShortNames="jan, fev, mar,avr,mai,jun,jul,aug,sep,oct,nov,dec"
+          dayShortNames="dim, lun, mar, mer ,jeu ,ven ,sam">
+        </ion-datetime>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <button color="danger" *ngIf="shLiv" ion-button (click)="presentAlertConfirm('livraisons')" block>supprimer</button>
+
+  <div class="divButton" (click)="showStocksClean()">
+    Stock
+  </div>
+
+  <ion-grid *ngIf="shStck" style="border:bold;">
+    <ion-row class="back">
+      <ion-col class="input">
+        <ion-label>Date de début:</ion-label>
+        <ion-datetime [(ngModel)]="begin" display-format="DDDD MMM D, YYYY"
+        monthShortNames="jan, fev, mar,avr,mai,jun,jul,aug,sep,oct,nov,dec"
+        dayShortNames="dim, lun, mar, mer ,jeu ,ven ,sam">
+        </ion-datetime>
+      </ion-col>
+      <ion-col class="input">
+        <ion-label>Date de fin:</ion-label>
+        <ion-datetime [(ngModel)]="end" display-format="DD/MM/YYYY"
+        monthShortNames="jan, fev, mar,avr,mai,jun,jul,aug,sep,oct,nov,dec"
+        dayShortNames="dim, lun, mar, mer ,jeu ,ven ,sam">
+        </ion-datetime>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <button color="danger" *ngIf="shStck" ion-button (click)="presentAlertConfirm('stocks')" block>Supprimer</button>
+</ion-content>

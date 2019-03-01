@@ -5,11 +5,15 @@ import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 export class Product {
 
 
-  constructor(private id, private name, private weight?: number, private unit?: string, public price?: number, public sqlite?: SQLite) {
+  constructor(private id, private name, private weight?: number, private unit?: string, public price?: number, public stock?: number, public sqlite?: SQLite) {
 
-    if(!this.price){
+    if (!this.price) {
       this.price = 0;
     }
+    if (!this.stock) {
+      this.stock = 0;
+    }
+
 
   }
 
@@ -29,34 +33,52 @@ export class Product {
     return this.unit
   }
 
-  public get PRICE() {
+  get STOCK(): number {
+    return this.stock;
+  }
+
+  set STOCK(stock: number) {
+    this.stock = stock;
+  }
+
+  set ADD2STOCK(stock: number) {
+    this.stock += stock;
+  }
+
+
+
+  get PRICE() {
     return this.price
   }
+
+
 
   update(data: any): any {
     this.name = data.name;
     this.weight = data.weight;
     this.unit = data.unit;
     this.price = data.price;
+    this.stock = data.stock;
 
 
     this.sqlite.create({
       name: 'data.db',
       location: 'default'
     }).then((db: SQLiteObject) => {
-      db.executeSql('UPDATE products set name=?,weight=?,unit=?,price=? WHERE id_prd=?', [
+      db.executeSql('UPDATE products set name=?,weight=?,unit=?,price=? stock=? WHERE id_prd=?', [
         data.name,
         data.weight,
         data.unit,
         data.price,
+        data.stock,
         this.id,
       ])
         .then((res) => {
-         
+
 
         })
-        .catch(e => {});
-    }).catch(e => {});
+        .catch(e => { });
+    }).catch(e => { });
 
   }
 
@@ -67,12 +89,31 @@ export class Product {
       location: 'default'
     })
       .then((db: SQLiteObject) => {
-        db.executeSql('DELETE FROM products WHERE id_prd=?', [this.id])
-          .then(() => {
-           
+        db.executeSql('select count(*) from productLiv WHERE id_prd=?', [this.id])
+          .then((res) => {
+            let count = res.rows.item(0)["count(*)"];
+            let sql;
+            console.log("count ", count);
+            if (count) {
+              sql = 'update products set deleted=1 WHERE id_prd=?';
+            } else {
+              sql = 'delete from products WHERE id_prd=?';
+            }
+            console.log(sql);
 
-          }).catch(e => {});
-      }).catch(e => {});
+            db.executeSql(sql, [this.id])
+              .then(() => {
+                console.log("request success");
+
+              }).catch(e => {
+                console.log("request failed");
+               });
+          }).catch(e => {
+            console.log("select count(*) failed");
+           });
+
+
+      }).catch(e => { });
 
   }
 

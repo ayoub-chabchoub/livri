@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams,AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams,AlertController, ToastController } from 'ionic-angular';
 import { SQLiteObject, SQLite } from '@ionic-native/sqlite';
 import {Product} from '../../../classes/product';
 import { AddProductPage } from '../add-product/add-product';
@@ -24,29 +24,38 @@ export class ProductsPage {
   
 
   static products:Product[] = [];
+  static products_modified:boolean = false;
   data:any = [];
   datatmp:any = [];
 
   constructor(public navCtrl: NavController, public navParams: NavParams ,public sqlite:SQLite,
-     public alertController:AlertController) { 
+     public toastcntrl:ToastController,public alertController:AlertController) { 
  
   }
 
   ionViewDidLoad(){
     console.log("ionViewDidLoad")
+    console.dir(ProductsPage.products);
     if(ProductsPage.products.length == 0){
       this.getData();
     }else{
       this.data = ProductsPage.products;
     }
+    console.dir("this.data");
+    console.dir(this.data);
     }
 
    ionViewDidEnter(){
-   
+   if(ProductsPage.products_modified){
+    this.getData();
+    
+    ProductsPage.products_modified = false;
+   }
     this.data.sort(function(a, b){
       if (a.NAME > b.NAME) return 1;
       else return -1;
     });
+  
   } 
   
   
@@ -66,30 +75,27 @@ export class ProductsPage {
   
   getData(){
     
-     this.sqlite.create({
+      this.sqlite.create({
       name: 'data.db',
       location: 'default'
     }).then((db: SQLiteObject) => {
 
-        db.executeSql('SELECT * FROM products ORDER BY name',[] )
+        db.executeSql('SELECT * FROM products where deleted=0 ORDER BY name',[] )
           .then(res=>{
             
           this.data = [];
-          let p;
+          
           for (var index = 0; index < res.rows.length; index++) {
 
-       
-
-            p =new Product(
+            this.data.push(new Product(
               res.rows.item(index).id_prd ,
               res.rows.item(index).name ,
               res.rows.item(index).weight ,
               res.rows.item(index).unit ,
               res.rows.item(index).price ,
+              res.rows.item(index).stock ,
               this.sqlite
-            )
-          
-            this.data.push(p);
+            ));
           }
 
           this.data.sort(function(a, b){
@@ -99,7 +105,10 @@ export class ProductsPage {
     
           ProductsPage.products = this.data;
           }).catch(e => console.log(e));
-      }).catch(e => console.log(e));
+      }).catch(e => console.log(e)); 
+     /*  ProductsPage.getData(this.data,this.sqlite,this.toastcntrl);
+      console.log("supposé aprés ProductsPage.products"); */
+      //this.data = ProductsPage.products;
     
   }
 
@@ -109,6 +118,7 @@ export class ProductsPage {
       duration:dur
     });
     toast.present();
+    console.dir(msg);
     
   }
    
@@ -206,39 +216,37 @@ export class ProductsPage {
     }   
 }
 
-static getData(products: Product[],sqlite,home,toastcntrl): any {
- 
+static getData(products: Product[],sqlite,toastcntrl): any {
+  console.log("static getdata")
   sqlite.create({
     name: 'data.db',
     location: 'default'
   }).then((db: SQLiteObject) => {
 
-      db.executeSql('SELECT * FROM products ORDER BY name',[] )
+      db.executeSql('SELECT * FROM products where deleted=0 ORDER BY name',[] )
         .then(res=>{
          
         products = [];
-        let p;
+        
 
         for (var index = 0; index < res.rows.length; index++) {
 
-          p =new Product(
+          products.push(new Product(
             res.rows.item(index).id_prd ,
             res.rows.item(index).name ,
             res.rows.item(index).weight ,
             res.rows.item(index).unit ,
             res.rows.item(index).price ,
+            res.rows.item(index).stock ,
             sqlite
-          )
-          
-          products.push(p);
+          ));
 
         }
 
-        products.sort(function(a, b){
-          if (a.NAME > b.NAME) return 1;
-          else return -1;
-        });
+        
         ProductsPage.products = products;
+        console.log("ProductsPage.products");
+        console.log(ProductsPage.products);
         
         /* home.ionViewDidEnter();
         home.remplireProducts(); */

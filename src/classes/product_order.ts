@@ -3,8 +3,9 @@ import { SQLite } from "@ionic-native/sqlite";
 
 export class ProductOrder extends Product{
 
-    constructor(id , name,weight?:number,unit?:string,price?:number,private num?:number,private totalPrice?:number,sqlite?:SQLite){
-        super(id,name,weight,unit,price,sqlite);
+    constructor(id , name,weight?:number,unit?:string,price?:number,stock?:number,private num?:number,
+        private totalPrice?:number,sqlite?:SQLite){
+        super(id,name,weight,unit,price,stock,sqlite);
         if(!this.num){
             this.num = 0;
         }
@@ -26,7 +27,7 @@ export class ProductOrder extends Product{
             this.totalPrice = 0;
         }
     }
-    get NUM(){
+    get NUM():number{
         return this.num;
     }
     get PRICE(){
@@ -42,5 +43,7 @@ export class ProductOrder extends Product{
         }
 
     }
+
+  
    
 }

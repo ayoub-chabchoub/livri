@@ -1,0 +1,21 @@
+page-clean {
+
+    .divButton{
+        border :1px;
+        background-color: rgba(231, 164, 101, 0.808);
+        text-align: center;
+        font-size: 2em;
+    }
+
+    .input{
+        background-color: rgba($color: rgb(212, 192, 160), $alpha: 0.8);
+        margin:2px;
+        border-style: solid;
+        border-color: black;
+      }
+      
+      .back{
+        background-color: rgba($color: rgb(230, 170, 81), $alpha: 0.6);
+      }
+
+}

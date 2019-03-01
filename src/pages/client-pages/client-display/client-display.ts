@@ -37,7 +37,7 @@ export class ClientDisplayPage {
   }
 
   ionViewDidEnter(){
-   
+    console.log("id = ",this.client.ID)
     this.getData();
   }
 
@@ -73,6 +73,7 @@ export class ClientDisplayPage {
               res.rows.item(index).remarque ,
               res.rows.item(index).prix_total ,
               res.rows.item(index).montant ,
+              res.rows.item(index).prix_nette ,
               this.sqlite
             )
           }
@@ -128,10 +129,10 @@ export class ClientDisplayPage {
       location: 'default'
     }).then((db: SQLiteObject) => {
 
-        db.executeSql('SELECT * FROM productLiv WHERE id_liv=?',[id] )
+        db.executeSql('SELECT productLiv.id_prd,products.name,productLiv.price,products.stock,productLiv.number FROM productLiv,products'+ 
+        ' WHERE products.id_prd=productLiv.id_prd and productLiv.id_liv=?',[id] )
           .then(res=>{
-         
-         
+  
           let product;
           for (var index = 0; index < res.rows.length; index++) {
             
@@ -141,8 +142,10 @@ export class ClientDisplayPage {
             );
             product.NUM = res.rows.item(index).number;
             product.PRICE = res.rows.item(index).price;
+            product.STOCK = res.rows.item(index).stock;
             
             products.push(product);
+            
            
           }
           }).catch(e => {
@@ -164,9 +167,15 @@ export class ClientDisplayPage {
 
   deleteLivraison(livraison){
     //delete from bd
+   
     livraison.delete();
-    this.client.LIVRAISONS.splice(this.client.LIVRAISONS.indexOf(livraison,1),1);
-    this.client.CREDIT += (livraison.MONTANT - livraison.TOTALPRICE);
+    
+    this.client.LIVRAISONS.splice(this.client.LIVRAISONS.indexOf(livraison),1);
+    console.log("livraison.MONTANT ");
+    console.log(livraison.MONTANT);
+    console.log("livraison.TOTALNETTE");
+    console.log(livraison.TOTALNETTE);
+    this.client.CREDIT += (livraison.MONTANT - livraison.TOTALNETTE);
 
   }
 
@@ -184,6 +193,7 @@ export class ClientDisplayPage {
   callNumber(){
     this.navParams.get("home").call(this.client);
   }
+
 
   presentAlertConfirmClient() {
     let alert = this.alertController.create({

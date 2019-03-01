@@ -5,12 +5,25 @@
 </ion-header> -->
 
 <ion-content padding class="home_style">
-
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+  <button (click)="clean()" clear ion-button icon-only>
+        <ion-icon color="danger" name="nuclear"></ion-icon>
+      </button>
+    </ion-col>
+    <ion-col>
     <h2>
       <ion-label float-right>
         {{date}}
       </ion-label>
     </h2>
+  
+</ion-col>
+</ion-row>
+</ion-grid>
+
+<div class="mar">
 <div class="centered">
 <h1>credit total:</h1>
 <h2>
@@ -18,5 +31,18 @@
     {{credit}}  TND
   
 </h2>
+</div>
+</div>
+
+<div class="mar">
+<div class="centered" (click)="etatDeVente()">
+  <h1>Vente total:</h1>
+  <h2>
+    
+      {{etat || 0}}  TND
+    
+  </h2>
+  </div>
+
 </div>
 </ion-content>

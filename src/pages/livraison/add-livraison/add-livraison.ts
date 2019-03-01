@@ -33,6 +33,7 @@ export class AddLivraisonPage {
   products = [];
   productsOrigin = [];
   client: Client;
+  remise:number = 0;
 
   public form: FormGroup;
 
@@ -42,10 +43,6 @@ export class AddLivraisonPage {
   constructor(public navCtrl: NavController, public navParams: NavParams, public sqlite: SQLite,
      private _FB: FormBuilder, private toastcntrl: ToastController) {
     this.client = this.navParams.get("client");
-    if(ProductsPage.products.length == 0){
-        ProductsPage.getData(ProductsPage.products,sqlite,this,toastcntrl)
-        
-    }
     
     this.cDate = HomePage.getDate();
     // Define the FormGroup object for the form
@@ -53,12 +50,12 @@ export class AddLivraisonPage {
     // the dynamically generated form input fields)
    
     this.form = this._FB.group({
-
-
       remarque: [''],
       montant: [, Validators.required], /////// changes makes here
       date: [this.cDate],
       total: [0],
+      remise: [0],
+      totalNette: [0],
       products: this._FB.array([
         this.initProductFields()
       ])
@@ -66,13 +63,6 @@ export class AddLivraisonPage {
 
   }
 
-  initProductFields(): FormGroup {
-    return this._FB.group({
-      name: ['', Validators.required],
-      number: [, Validators.required]
-
-    });
-  }
 
   ionViewDidLoad() {
 
@@ -82,6 +72,23 @@ export class AddLivraisonPage {
   }
 
   ionViewDidEnter() {
+    if(ProductsPage.products.length == 0 || ProductsPage.products_modified){
+      ProductsPage.getData(ProductsPage.products,this.sqlite,this.toastcntrl)
+      
+  } 
+    if(ProductsPage.products.length == 0){
+    var code = setInterval(function(){
+      if(ProductsPage.products.length){
+        this.productsOrigin = this.product2ProductOrder(ProductsPage.products);
+        clearInterval(code);
+      }
+    },400
+    );
+     setTimeout(function(){
+      clearInterval(code);
+      
+    },2500);
+  }
     this.productsOrigin = this.product2ProductOrder(ProductsPage.products);
     this.remplireProducts();
   }
@@ -92,13 +99,27 @@ export class AddLivraisonPage {
     for (let i = 0; i < products.length; i++) {
 
       productOrders = productOrders.concat(new ProductOrder(products[i].ID, products[i].NAME, products[i].WEIGHT, products[i].UNIT,
-        products[i].PRICE));
+        products[i].PRICE,products[i].STOCK));
 
     }
     return productOrders;
 
   }
 
+  set REMISE(remise){
+    this.form.value.totalNette = this.form.value.total -remise;
+  }
+
+  // form methods begin
+
+  initProductFields(): FormGroup {
+    return this._FB.group({
+      name: ['', Validators.required],
+      number: [, Validators.required],
+      price: [, Validators.required]
+
+    });
+  }
 
   /**
    * Programmatically generates a new technology input field
@@ -121,35 +142,7 @@ export class AddLivraisonPage {
       toast.present();
 
     }
-
   }
-
-  getTotalPrice() {
-    
-    let total = 0;
-    for (let j = 0; j < this.product.length; j++) {
-      if (this.product[j]) {
-        total += this.product[j].TOTAL;
-      }
-    }
-    this.form.value.total = total;
-    return total;
-  }
-
-  changeDate() {
-    this.chDate = !this.chDate;
-    if (this.textChangeDate == "changer") {
-      this.textChangeDate = "Aujourd'hui"
-    } else {
-      this.textChangeDate = "changer"
-    }
-  }
-
-  changerTotal() {
-    this.chTotal = !this.chTotal;
-  }
-
-
 
   /**
    * Programmatically removes a recently generated technology input field
@@ -164,11 +157,65 @@ export class AddLivraisonPage {
     control.removeAt(i);
     if (this.product[i]) {
       this.product[i].NUM = 0;
+      this.product[i].PRICE = this.getdefaultPrice(this.product[i].ID)
       this.products.push(this.product[i])
     }
 
     this.product.splice(i, 1);
 
+  }
+
+  getdefaultPrice(id){
+    for(let i=0; i<ProductsPage.products.length;i++){
+      if( ProductsPage.products[i].ID == id){
+        return ProductsPage.products[i].PRICE;
+      }
+    }
+  }
+
+  productSelection(event: { component: SelectSearchableComponent, value: any }) {
+
+    this.remplireProducts();
+  }
+
+  onClose() {
+    let toast = this.toastcntrl.create({
+      message: 'thanks',
+      duration: 2000
+    });
+    toast.present();
+  }
+
+  openFromCode() {
+    this.selectComponent.open();
+  }
+
+  //form methods end
+
+  getTotalPrice() {
+    
+    let total = 0;
+    for (let j = 0; j < this.product.length; j++) {
+      if (this.product[j]) {
+        total += this.product[j].TOTAL;
+      }
+    }
+    this.form.value.total = total;
+    return [total, total - this.remise];
+    
+  }
+
+  changeDate() {
+    this.chDate = !this.chDate;
+    if (this.textChangeDate == "changer") {
+      this.textChangeDate = "Aujourd'hui"
+    } else {
+      this.textChangeDate = "changer"
+    }
+  }
+
+  changerTotal() {
+    this.chTotal = !this.chTotal;
   }
 
   copyArray(data) {
@@ -195,29 +242,48 @@ export class AddLivraisonPage {
       location: 'default'
     }).then((db: SQLiteObject) => {
       let id_liv;
-      db.executeSql('INSERT INTO livraisons VALUES(NULL,? ,?,?,?,?)', [
+      console.log("total= " + this.form.value.total);
+      console.log("remise= " + this.form.value.remise);
+      db.executeSql('INSERT INTO livraisons VALUES(NULL,? ,?,?,?,?,?)', [
         this.form.value.date,
         this.client.ID,
         this.form.value.remarque,
         this.form.value.total,
-        this.form.value.montant
+        this.form.value.montant || 0 ,
+        this.form.value.total - this.form.value.remise
       ])
         .then((res) => {                               //add res
-         
+          this.client.CREDIT += (this.form.value.total - this.form.value.remise - this.form.value.montant);
+          this.navCtrl.pop();
            db.executeSql('select last_insert_rowid();',[])
           .then((res) => {
             
             id_liv = res.rows.item(0)["last_insert_rowid()"]; 
-
+            console.log(id_liv);
             for (let i =0; i<this.product.length ; i++){
               if(id_liv){
-              db.executeSql('INSERT INTO productLiv VALUES(? ,?,?,?,?)', [
+              db.executeSql('INSERT INTO productLiv VALUES(? ,?,?,?)', [
                 this.product[i].ID,
                 id_liv,
-                this.product[i].NAME,
                 this.product[i].PRICE,
                 this.product[i].NUM
-              ]).then(res => {})
+              ]).then(res => {console.dir(this.product);
+              console.log(id_liv);
+              console.log(this.product[i].STOCK);
+              this.product[i].ADD2STOCK = -this.product[i].NUM;
+              console.log(this.product[i].STOCK);
+              db.executeSql('UPDATE products set stock=stock - ?  WHERE id_prd=?', [
+                this.product[i].NUM,
+                this.product[i].ID
+              ])
+                .then((res) => {
+                  console.log("update products");
+                  ProductsPage.products_modified = true;
+                })
+                .catch(e => {console.log("problem update products");});
+                
+             
+              })
               .catch(e=> {
                 console.dir("problem of insert in productLiv");
                 console.dir(e);
@@ -232,22 +298,15 @@ export class AddLivraisonPage {
           });
          
         }) 
-        .catch(e => {
+        .catch(e => {console.log("INSERT INTO livraisons problem");
+        console.dir(e);
         });
     }).catch(e => {
       
           console.log(e);
       
     });
-   
-    this.client.CREDIT += (this.form.value.total - this.form.value.montant);
-    this.navCtrl.pop();
 
-  }
-
-  productSelection(event: { component: SelectSearchableComponent, value: any }) {
-
-    this.remplireProducts();
   }
 
   remplireProducts(){
@@ -275,16 +334,6 @@ export class AddLivraisonPage {
     return -1;
   }
 
-  onClose() {
-    let toast = this.toastcntrl.create({
-      message: 'thanks',
-      duration: 2000
-    });
-    toast.present();
-  }
-
-  openFromCode() {
-    this.selectComponent.open();
-  }
+ 
 
 }

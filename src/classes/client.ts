@@ -32,7 +32,7 @@ export class Client{
     }
 
     get CREDIT(){
-        return this.credit
+        return this.credit;
     }
 
     get LIVRAISONS(){
@@ -92,11 +92,16 @@ export class Client{
             location: 'default'
           })
             .then((db: SQLiteObject) => {
+
+                db.executeSql("PRAGMA foreign_keys = ON;", [])
+          .then(() => {
+            console.log("PRAGMA foreign_keys = ON;");
           db.executeSql('DELETE FROM clients WHERE id_clt=?', [this.id])
                 .then(() =>{
                   
  
                 } ) .catch(e => {});
+            } ) .catch(e => {console.log("problemPRAGMA foreign_keys = ON;")}); 
           }) .catch(e => {});
         
         }

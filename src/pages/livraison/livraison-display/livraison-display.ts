@@ -17,13 +17,17 @@ import { Livraison } from '../../../classes/livraison';
 export class LivraisonDisplayPage {
 
   livraison:Livraison;
-
+  remiseExists:Boolean = false;
   constructor(public navCtrl: NavController, public navParams: NavParams, private alertController:AlertController) {
     this.livraison = this.navParams.get("livraison")
    
   }
 
   ionViewDidLoad() {
+    console.log("id of liv ",this.livraison.ID);
+    if(this.livraison.TOTALNETTE < this.livraison.TOTALPRICE){
+      this.remiseExists = true;
+    }
     
   }
 

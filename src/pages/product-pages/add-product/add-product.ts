@@ -22,6 +22,7 @@ export class AddProductPage {
     weight:''  ,
     unit:''   ,
     price:''  ,
+    stock:''
 
   } 
  
@@ -49,11 +50,12 @@ export class AddProductPage {
         name: 'data.db',
         location: 'default'
       }).then((db: SQLiteObject) => {
-          db.executeSql('INSERT INTO products VALUES(NULL,? ,?,?,?)', [
+          db.executeSql('INSERT INTO products VALUES(NULL,? ,?,?,?,?,0)', [
             this.data.name,
             this.data.weight,
             this.data.unit,
-            this.data.price
+            this.data.price,
+            this.data.stock
           ])
           .then((res) => {                               //add res
             this.showMessage('Produit ajouté');

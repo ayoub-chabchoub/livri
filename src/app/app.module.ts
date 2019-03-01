@@ -12,8 +12,8 @@ import { ClientDisplayPage } from '../pages/client-pages/client-display/client-d
 import {SelectSearchableModule} from 'ionic-select-searchable';
 import { IonicStorageModule } from '@ionic/storage';
 import { CallNumber } from '@ionic-native/call-number';
-
-
+import { EtatVentePage } from '../pages/home-pages/etat-vente/etat-vente';
+import { CleanPage } from '../pages/home-pages/clean/clean';
 
 
 import { StatusBar } from '@ionic-native/status-bar';
@@ -26,6 +26,9 @@ import { ProductDisplayPage } from '../pages/product-pages/product-display/produ
 import { AddLivraisonPage } from '../pages/livraison/add-livraison/add-livraison';
 import { FavoriteProvider } from '../providers/favorite/favorite';
 import { LivraisonDisplayPage } from '../pages/livraison/livraison-display/livraison-display';
+import {StockPage} from '../pages/stock-pages/stock/stock';
+import {AjoutStockPage} from '../pages/stock-pages/ajout-stock/ajout-stock';
+import {StockDisplayPage} from '../pages/stock-pages/stock-display/stock-display';
 
 @NgModule({
   declarations: [
@@ -42,6 +45,11 @@ import { LivraisonDisplayPage } from '../pages/livraison/livraison-display/livra
     AddProductPage,
     ProductDisplayPage,
     LivraisonDisplayPage,
+    StockPage,
+    AjoutStockPage,
+    StockDisplayPage,
+    EtatVentePage,
+    CleanPage
   ],
   imports: [
     BrowserModule,
@@ -64,7 +72,12 @@ import { LivraisonDisplayPage } from '../pages/livraison/livraison-display/livra
     EditProductPage,
     AddProductPage,
     ProductDisplayPage,
-    LivraisonDisplayPage
+    LivraisonDisplayPage,
+    StockPage,
+    AjoutStockPage,
+    StockDisplayPage,
+    EtatVentePage,
+    CleanPage
   ],
   providers: [
     CallNumber,

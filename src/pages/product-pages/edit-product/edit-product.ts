@@ -22,6 +22,7 @@ export class EditProductPage {
     weight: 0,
     unit: '',
     price: 0,
+    stock:0
 
   }
 
@@ -34,6 +35,7 @@ export class EditProductPage {
     this.data.weight = this.product.WEIGHT;
     this.data.unit = this.product.UNIT;
     this.data.price = this.product.PRICE;
+    this.data.stock = this.product.STOCK;
 
   }
 
