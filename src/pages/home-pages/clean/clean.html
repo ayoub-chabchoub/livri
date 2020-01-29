@@ -6,8 +6,15 @@
 -->
 <ion-header>
 
+
   <ion-navbar>
-    <ion-title>clean</ion-title>
+    <ion-title>Clean</ion-title>
+    <ion-buttons end>
+      
+      <button (click)="importDb()" clear ion-button icon-only>
+        <ion-icon color="danger" name="cloud-download"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 
 </ion-header>

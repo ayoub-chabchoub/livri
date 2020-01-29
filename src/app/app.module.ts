@@ -6,86 +6,88 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
 import { ClientsPage } from '../pages/client-pages/clients/clients';
-import { EditClientPage } from '../pages/client-pages/edit-client/edit-client';
-import { AddClientPage } from '../pages/client-pages/add-client/add-client';
-import { ClientDisplayPage } from '../pages/client-pages/client-display/client-display';
-import {SelectSearchableModule} from 'ionic-select-searchable';
+
+//import {SelectSearchableModule} from 'ionic-select-searchable';
 import { IonicStorageModule } from '@ionic/storage';
 import { CallNumber } from '@ionic-native/call-number';
 import { EtatVentePage } from '../pages/home-pages/etat-vente/etat-vente';
 import { CleanPage } from '../pages/home-pages/clean/clean';
+import { EtatStockPage } from '../pages/stock-pages/etat-stock/etat-stock';
 
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import {SQLite} from '@ionic-native/sqlite';
 import { ProductsPage } from '../pages/product-pages/products/products';
-import { EditProductPage } from '../pages/product-pages/edit-product/edit-product';
-import { AddProductPage } from '../pages/product-pages/add-product/add-product';
-import { ProductDisplayPage } from '../pages/product-pages/product-display/product-display';
-import { AddLivraisonPage } from '../pages/livraison/add-livraison/add-livraison';
 import { FavoriteProvider } from '../providers/favorite/favorite';
-import { LivraisonDisplayPage } from '../pages/livraison/livraison-display/livraison-display';
-import {StockPage} from '../pages/stock-pages/stock/stock';
-import {AjoutStockPage} from '../pages/stock-pages/ajout-stock/ajout-stock';
-import {StockDisplayPage} from '../pages/stock-pages/stock-display/stock-display';
+
+
+//import { File } from '@ionic-native/file';
+import { ImportPage } from '../pages/home-pages/import/import';
+
+
+import {PapaParseModule} from 'ngx-papaparse';
+import {File} from '@ionic-native/file';
+import { SocialSharing } from '@ionic-native/social-sharing';
+import { FileChooser } from '@ionic-native/file-chooser';
+import { FilePath } from '@ionic-native/file-path';
+import { LoginPage } from '../pages/login/login';
+import { AuthProvider } from '../providers/auth/auth';
+import { IonicSelectableModule } from 'ionic-selectable';
+import { StockPage } from '../pages/stock-pages/stock/stock';
+
 
 @NgModule({
   declarations: [
     MyApp,
-    AddLivraisonPage,
     HomePage,
     TabsPage,
+    LoginPage,
     ClientsPage,
-    EditClientPage,
-    AddClientPage,
-    ClientDisplayPage,
     ProductsPage,
-    EditProductPage,
-    AddProductPage,
-    ProductDisplayPage,
-    LivraisonDisplayPage,
     StockPage,
-    AjoutStockPage,
-    StockDisplayPage,
     EtatVentePage,
-    CleanPage
+    CleanPage,
+    ImportPage,
+    //EtatStockPage
   ],
   imports: [
     BrowserModule,
     
     IonicModule.forRoot(MyApp),
     IonicStorageModule.forRoot(),
-    SelectSearchableModule
+    //SelectSearchableModule,
+    IonicSelectableModule,
+    PapaParseModule,
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    AddLivraisonPage,
     HomePage,
     TabsPage,
+    LoginPage,
     ClientsPage,
-    EditClientPage,
-    AddClientPage,
-    ClientDisplayPage,
     ProductsPage,
-    EditProductPage,
-    AddProductPage,
-    ProductDisplayPage,
-    LivraisonDisplayPage,
     StockPage,
-    AjoutStockPage,
-    StockDisplayPage,
     EtatVentePage,
-    CleanPage
+    CleanPage,
+    ImportPage,
+    //EtatStockPage
+
   ],
   providers: [
     CallNumber,
     SQLite,
     StatusBar,
     SplashScreen,
+   // File,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    FavoriteProvider
+    FavoriteProvider,
+    FileChooser,
+    FilePath,
+    File,
+    SocialSharing,
+    AuthProvider
     
   ]
 })

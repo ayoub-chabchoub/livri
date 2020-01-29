@@ -45,7 +45,7 @@ export class Livraison {
 
 
     this.sqlite.create({
-      name: 'data.db',
+      name: 'livri.db',
       location: 'default'
     }).then((db: SQLiteObject) => {
       db.executeSql('UPDATE products set date=?,id_clt=?,____  WHERE id_liv=?', [ //add news
@@ -66,7 +66,7 @@ export class Livraison {
   delete() {
 
     this.sqlite.create({
-      name: 'data.db',
+      name: 'livri.db',
       location: 'default'
     })
       .then((db: SQLiteObject) => {

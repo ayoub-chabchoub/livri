@@ -39,7 +39,7 @@ export class AddClientPage {
   saveDate() {
 
     this.sqlite.create({
-      name: 'data.db',
+      name: 'livri.db',
       location: 'default'
     }).then((db: SQLiteObject) => {
       db.executeSql('INSERT INTO clients VALUES(NULL,? ,?,?,?,?)', [

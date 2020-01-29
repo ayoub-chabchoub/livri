@@ -47,7 +47,7 @@ export class AddProductPage {
     saveDate(){
   
        this.sqlite.create({
-        name: 'data.db',
+        name: 'livri.db',
         location: 'default'
       }).then((db: SQLiteObject) => {
           db.executeSql('INSERT INTO products VALUES(NULL,? ,?,?,?,?,0)', [

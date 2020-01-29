@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="io.ionic.starter" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="io.livri.ayoub" version="0.0.4" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Livri</name>
     <description>An awesome Ionic/Cordova app.</description>
-    <author email="hi@ionicframework" href="http://ionicframework.com/">Ionic Framework Team</author>
+    <author email="ayoubchabchoub1@gmail.com">Ayoub Chabchoub</author>
     <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
@@ -13,6 +13,7 @@
     <allow-intent href="geo:*" />
     <preference name="ScrollEnabled" value="false" />
     <preference name="android-minSdkVersion" value="19" />
+    <preference name="android-targetSdkVersion" value="28" />
     <preference name="BackupWebStorage" value="none" />
     <preference name="SplashMaintainAspectRatio" value="true" />
     <preference name="FadeSplashScreenDuration" value="300" />
@@ -33,12 +34,12 @@
         <splash density="land-xhdpi" src="resources/android/splash/drawable-land-xhdpi-screen.png" />
         <splash density="land-xxhdpi" src="resources/android/splash/drawable-land-xxhdpi-screen.png" />
         <splash density="land-xxxhdpi" src="resources/android/splash/drawable-land-xxxhdpi-screen.png" />
-        <splash density="port-ldpi" src="resources/android/splash/drawable-port-ldpi-screen.jpg" />
-        <splash density="port-mdpi" src="resources/android/splash/drawable-port-mdpi-screen.jpg" />
-        <splash density="port-hdpi" src="resources/android/splash/drawable-port-hdpi-screen.jpg" />
-        <splash density="port-xhdpi" src="resources/android/splash/drawable-port-xhdpi-screen.jpg" />
-        <splash density="port-xxhdpi" src="resources/android/splash/drawable-port-xxhdpi-screen.jpg" />
-        <splash density="port-xxxhdpi" src="resources/android/splash/drawable-port-xxxhdpi-screen.jpg" />
+        <splash density="port-ldpi" src="resources/android/splash/drawable-port-ldpi-screen.png" />
+        <splash density="port-mdpi" src="resources/android/splash/drawable-port-mdpi-screen.png" />
+        <splash density="port-hdpi" src="resources/android/splash/drawable-port-hdpi-screen.png" />
+        <splash density="port-xhdpi" src="resources/android/splash/drawable-port-xhdpi-screen.png" />
+        <splash density="port-xxhdpi" src="resources/android/splash/drawable-port-xxhdpi-screen.png" />
+        <splash density="port-xxxhdpi" src="resources/android/splash/drawable-port-xxxhdpi-screen.png" />
     </platform>
     <platform name="ios">
         <allow-intent href="itms:*" />
@@ -85,5 +86,6 @@
     <plugin name="cordova-sqlite-storage" spec="2.6.0" />
     <plugin name="cordova-plugin-nativestorage" spec="2.3.2" />
     <plugin name="mx.ferreyra.callnumber" spec="~0.0.2" />
+    <plugin name="cordova-plugin-file" spec="6.0.1" />
     <engine name="android" spec="7.1.4" />
 </widget>

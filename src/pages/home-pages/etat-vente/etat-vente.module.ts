@@ -4,7 +4,7 @@ import { EtatVentePage } from './etat-vente';
 
 @NgModule({
   declarations: [
-    EtatVentePage,
+    //EtatVentePage,
   ],
   imports: [
     IonicPageModule.forChild(EtatVentePage),

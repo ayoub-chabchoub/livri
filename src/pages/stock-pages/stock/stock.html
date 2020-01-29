@@ -6,28 +6,56 @@
 -->
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>stock</ion-title>
-  </ion-navbar>
+    <div>
+        <ion-row>
+            <ion-col>
+        <button ion-button icon-start color="iobutton" (click)="addStock()">
+           <ion-icon name="add" ></ion-icon>
+         </button>
+        </ion-col>
+        <ion-col>
+         <ion-label style="color: white;font-size: 20px;font-weight: 500">Stocks</ion-label>
+        </ion-col>
+        <ion-col>
+         <button ion-button icon-start float-right color="iobutton" (click)="stockStat()">
+          <ion-icon name="stats"></ion-icon>
+        </button>
+      
+        <button ion-button icon-start float-right color="iobutton" (click)="stockStat1()">
+          <ion-icon name="basket"></ion-icon>
+        </button>
+      </ion-col>
+      </ion-row>
+       </div>
+
+    
+
 
 </ion-header>
 
 
 <ion-content padding class="getstart2">
 
-    <div>
+    <!-- <div>
         <button ion-button icon-start color="iobutton" (click)="addStock()">
            <ion-icon name="add" ></ion-icon>
     
          </button>
-       </div>
+         <button ion-button icon-start float-right color="iobutton" (click)="stockStat()">
+          <ion-icon name="stats"></ion-icon>
+        </button>
+        <button ion-button icon-start float-right color="iobutton" (click)="stockStat1()">
+          <ion-icon name="basket"></ion-icon>
+        </button>
+         
+       </div> -->
 
     <ion-list >
         <ion-item-sliding *ngFor="let stock of stockList" class="transboxf">
           <ion-item  (click)="showStock(stock)" class="transbox">
            
             <h2 class="transboxp">{{stock.DATE}}</h2>
-            <!-- <p >montant payé: {{stock.MONTANT}}</p> -->
+             <p >montant: {{stock.Total}}</p>
             
           
           </ion-item>

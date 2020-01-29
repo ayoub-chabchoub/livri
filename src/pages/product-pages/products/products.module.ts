@@ -4,10 +4,17 @@ import { ProductsPage } from './products';
 
 @NgModule({
   declarations: [
-    ProductsPage,
+    //ProductsPage,
+    /* EditProductPage,
+    AddProductPage,
+    ProductDisplayPage, */
   ],
   imports: [
     IonicPageModule.forChild(ProductsPage),
-  ],
+  ],entryComponents: [
+   /*  EditProductPage,
+    AddProductPage,
+    ProductDisplayPage, */
+  ]
 })
 export class ProductsPageModule {}

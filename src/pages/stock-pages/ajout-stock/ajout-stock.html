@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>ajout-stock</ion-title>
+    <ion-title>Ajout stock</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -32,11 +32,17 @@
       
     <ion-grid>
       <ion-row style="color:white;font-size:large">
-        <ion-col col-7>
+        <ion-col col-4>
           <ion-label style="font-size:4vw;">produit</ion-label>
         </ion-col>
-        <ion-col col-5>
-          <ion-label style="font-size:4vw;">quantité</ion-label>
+        <ion-col col-2>
+          <ion-label style="font-size:4vw;">qté</ion-label>
+        </ion-col>
+        <ion-col col-3>
+          <ion-label style="font-size:4vw;">prix</ion-label>
+        </ion-col>
+        <ion-col col-3>
+          <ion-label style="font-size:4vw;">total</ion-label>
         </ion-col>
         
       </ion-row>
@@ -68,8 +74,8 @@
 
                     <ion-row style="background-color: rgba(245, 245, 245, 0.836);">
                     
-                      <ion-col col-7 class="list_table" >
-                        <select-searchable
+                      <ion-col col-4 class="list_table" >
+                       <!--  <select-searchable
                         block
                         item-content
                         style="width:100%;"
@@ -82,10 +88,34 @@
                         formControlName="name"
                         > 
                          
-                        </select-searchable> 
-                        
+                        </select-searchable>  -->
+                      <ionic-selectable
+                        item-content 
+                        [(ngModel)]="product[i]"
+                        [items]="products"
+                        itemValueField="ID"
+                        itemTextField="NAME"
+                        [canSearch]="true"
+                        (onChange)="productSelection($event)"
+                        formControlName="name">
+
+                      </ionic-selectable>
+                      <!-- 
+                      <ion-item>
+                        <ion-label>Port</ion-label>
+                        <ionic-selectable
+                          item-content 
+                          [(ngModel)]="port"
+                          [items]="ports"
+                          itemValueField="id"
+                          itemTextField="name"
+                          [canSearch]="true"
+                          (onChange)="portChange($event)">
+                        </ionic-selectable>
+                      </ion-item>
+                         -->
                       </ion-col>
-                      <ion-col col-5 class="list_table" >
+                      <ion-col col-2 class="list_table" >
                         <ion-input 
                        
                         *ngIf="product[i]"
@@ -95,7 +125,24 @@
                           formControlName="number"
                           ></ion-input>
                       </ion-col>
-                     
+
+                      <!-- fdddddddddddddddddddddddddddddddddddddddd-->
+                      <ion-col col-3 class="list_table" >
+                        <ion-input 
+                       
+                        *ngIf="product[i]"
+                        [(ngModel)]="product[i].PRICE"
+                          name ="prix"
+                          type="number"
+                          formControlName="price"
+                          ></ion-input>
+                         
+                      </ion-col>
+
+                      <ion-col col-3 class="list_table" >
+                        <ion-label>{{product[i]?.TOTAL}}</ion-label>
+                      </ion-col>
+                     <!-- fdddddddddddddddddddddddddddddddddddddddd-->
                     
                     </ion-row>
                     
@@ -138,6 +185,11 @@
                 <ion-icon name="add"></ion-icon>
                 Ajouter produit
           </span>
+        </ion-col>
+
+        <ion-col>
+          <ion-label style="float:right;font-size:large;color:white;">total: {{getTotalPrice()}}</ion-label>
+
         </ion-col>
       </ion-row>
     </ion-grid>

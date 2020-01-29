@@ -18,10 +18,18 @@ export class Stock {
     return this.date;
   }
 
+   get Total() {
+    var total :number = 0;
+    for (let i=0 ; i<this.products.length ; i++) {
+      total += this.products[i].PRICE * this.products[i].NUM;
+    }
+    return total
+  }
+
   delete() {
     console.log("delete stock id= ", this.id);
     this.sqlite.create({
-      name: 'data.db',
+      name: 'livri.db',
       location: 'default'
     })
       .then((db: SQLiteObject) => {
@@ -63,10 +71,10 @@ export class Stock {
   .catch((e) => console.log("productstock delete problem"));
 
 */
-  }).catch(e => { console.dir("problem with data.db open") });
- 
-
+  }).catch(e => { console.dir("problem with livri.db open") });
   }
+
+ 
 
 
 

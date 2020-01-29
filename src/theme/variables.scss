@@ -84,7 +84,52 @@ $colors: (
     border-style: solid;
     border-color: black;
 
-}
+  }
+
+  .centered {
+    /*   color:white;
+     position:absolute ; /* or fixed */
+    /*  top: 50%;
+     left: 50%; 
+     margin: auto;
+     width: 50%;
+     border: 3px solid green;
+     padding: 10px;*/
+     background-color: rgba($color: rgb(230, 170, 81), $alpha: 0.6);
+     text-align: center;
+     position: relative;
+     margin: auto;
+     top: 15%;
+     right: 0;
+     bottom: 0;
+     left: 0;
+     width: 60%;
+     height: fit-content;
+     //font-family: 'Kristen ITC', cursive;
+     //font-family: 'Kristen ITC', fantasy;
+     //font-family: 'Bowlby One SC', cursive;
+     //flex: 1;
+     
+     border-radius: 9px;
+    
+ }
+
+ /* .input{
+      background-color: rgba($color: rgb(212, 192, 160), $alpha: 0.8);
+     margin:2px;
+     border-style: solid;
+     border-color: black; 
+ }*/
+
+ .back{
+     background-color: rgba($color: rgb(230, 170, 81), $alpha: 0.6);
+ }
+
+ 
+ button{
+     background-color:rgb(187, 94, 18);
+ }
+
 
 
 

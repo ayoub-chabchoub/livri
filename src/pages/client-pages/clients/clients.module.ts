@@ -4,10 +4,19 @@ import { ClientsPage } from './clients';
 
 @NgModule({
   declarations: [
-    ClientsPage,
+    //ClientsPage,
+   /*  ClientStatPage,
+    EditClientPage,
+    ClientDisplayPage,
+    AddClientPage, */
   ],
   imports: [
     IonicPageModule.forChild(ClientsPage),
-  ],
+  ],entryComponents: [
+    /* ClientStatPage,
+    EditClientPage,
+    ClientDisplayPage,
+    AddClientPage, */
+  ]
 })
 export class ClientsPageModule {}

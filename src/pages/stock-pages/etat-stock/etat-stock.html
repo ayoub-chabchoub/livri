@@ -1,0 +1,120 @@
+<!--
+  Generated template for the EtatVentePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Produits approvisionnés</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding class="getstart">
+    <button ion-button full color="cardback" class="button" (click)="getEtatToday()">Aujourd'hui</button>
+    <button ion-button full color="cardback" class="button" (click)="getEtatMonth()">Ce mois</button>
+    
+    <ion-grid style="border:bold;">
+      <ion-row class="back">
+        <ion-col class="input">
+      <ion-datetime
+        [(ngModel)]="begin"
+        display-format="DDD D MMM YYYY"
+        monthShortNames="jan, fev, mar,avr,mai,jun,jul,aug,sep,oct,nov,dec"
+        dayShortNames="dim, lun, mar, mer ,jeu ,ven ,sam"
+        >
+      </ion-datetime>
+    </ion-col>
+    <ion-col class="input">
+      <ion-datetime
+        [(ngModel)]="end"
+        display-format="DDD D MMM YYYY"
+        monthShortNames="jan, fev, mar,avr,mai,jun,jul,aug,sep,oct,nov,dec"
+        dayShortNames="dim, lun, mar, mer ,jeu ,ven ,sam"
+        >
+      </ion-datetime>
+    </ion-col>
+    </ion-row>
+    </ion-grid>
+      <!-- display-format="DDDD MMM D, YYYY"
+        month-names="janeiro, fevereiro, mar\u00e7o, ..."
+        month-short-names="jan, fev, mar, ..."
+        day-names="domingo, segunda-feira, ter\u00e7a-feira, ..."
+        day-short-names="dom, seg, ter, ..." -->
+        <!-- <ion-input 
+        [(ngModel)]="begin"
+          name ="debut"
+          type="date"
+          class="input"
+          ></ion-input>
+          <ion-input 
+        [(ngModel)]="end"
+          name ="fin"
+          type="date"
+          class="input"
+          ></ion-input> -->
+
+        <button ion-button color="iobutton" (click)="getEtat()" block>Calculer</button>
+    
+    <div style="margin: 5%">
+      <div class="centered"><!-- (click)="etatDeVente()">
+        <h1>Vente total:</h1> --> 
+        <h2>
+          
+            {{etat}}  TND
+          
+        </h2>
+      </div>
+    </div>
+
+      <div
+                
+                margin-bottom>
+   
+                              <ion-grid *ngIf="products.length" style="color:white;background-color: rgba(87, 37, 17, 0.84)">
+
+                                  <ion-row style="font-size:large">
+                                      <ion-col col-5 class="list_table">
+                                        <ion-label style="font-size:4vw;" >produit</ion-label>
+                                      </ion-col>
+                                      <ion-col col-3 class="list_table">
+                                        <ion-label style="font-size:4vw;" >quantité</ion-label>
+                                      </ion-col>
+                                      <ion-col col-4 class="list_table">
+                                        <ion-label style="font-size:4vw;" >prix</ion-label>
+                                      </ion-col>
+                                      
+                                    </ion-row>
+                                
+                                <ion-row *ngFor="let product of products">
+                                  
+                                  <ion-col col-5 class="list_table">
+                                      <ion-label 
+                                      name ="name"
+                                      type="text"
+                                      >{{product.NAME}}</ion-label>
+                                  </ion-col>
+                                  <ion-col col-3 class="list_table">
+                                    <ion-label 
+                                      name ="number_of_units"
+                                      type="number"
+                                      >{{product.NUM}}</ion-label>
+                                  </ion-col>
+                                  <ion-col col-4 class="list_table">
+                                    <ion-label 
+                                      name ="number_of_units"
+                                      type="number"
+                                      >{{product.PRICE}}</ion-label>
+                                  </ion-col>
+                                  
+                                </ion-row>
+                              
+                               </ion-grid>
+                  
+               </div>
+  
+
+</ion-content>

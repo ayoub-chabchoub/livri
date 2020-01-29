@@ -8,6 +8,8 @@ import { EditClientPage } from './edit-client';
   ],
   imports: [
     IonicPageModule.forChild(EditClientPage),
-  ],
+  ],exports: [
+    EditClientPage
+  ]
 })
 export class EditClientPageModule {}

@@ -8,6 +8,8 @@ import { ProductDisplayPage } from './product-display';
   ],
   imports: [
     IonicPageModule.forChild(ProductDisplayPage),
-  ],
+  ],exports: [
+    ProductDisplayPage
+  ]
 })
 export class ProductDisplayPageModule {}

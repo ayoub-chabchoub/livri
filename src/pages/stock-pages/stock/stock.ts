@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController, AlertController } from 'ionic-angular';
-import { AjoutStockPage } from '../ajout-stock/ajout-stock';
-import { StockDisplayPage } from '../stock-display/stock-display';
+
 import { SQLiteObject, SQLite } from '@ionic-native/sqlite';
 import { Stock } from '../../../classes/stock';
 import { ProductOrder } from '../../../classes/product_order';
+
 
 /**
  * Generated class for the StockPage page.
@@ -21,7 +21,7 @@ import { ProductOrder } from '../../../classes/product_order';
 export class StockPage {
   noOfstck: number = 5;
   stockList: Stock[] = [];
-  static stockModified:boolean = false;
+  static stockModified:boolean = false; 
   constructor(public navCtrl: NavController, public navParams: NavParams,private sqlite:SQLite,private toastcntrl:ToastController
     ,private alertController:AlertController) {
   }
@@ -52,7 +52,7 @@ export class StockPage {
   getData(){
     
      this.sqlite.create({
-      name: 'data.db',
+      name: 'livri.db',
       location: 'default'
     }).then((db: SQLiteObject) => {
        
@@ -124,11 +124,11 @@ export class StockPage {
     
     let products = [];
     this.sqlite.create({
-      name: 'data.db',
+      name: 'livri.db',
       location: 'default'
     }).then((db: SQLiteObject) => {
 
-        db.executeSql('select products.id_prd,products.name,product_stock.num ,products.stock from products,product_stock where products.id_prd = product_stock.id_prd and id_stock=?',[id] )
+        db.executeSql('select products.id_prd,products.name,product_stock.num ,products.stock,product_stock.price from products,product_stock where products.id_prd = product_stock.id_prd and id_stock=?',[id] )
           .then(res=>{
             
          
@@ -140,6 +140,7 @@ export class StockPage {
               res.rows.item(index).name 
             );
             product.NUM = res.rows.item(index).num;
+            product.PRICE = res.rows.item(index).price;
             product.STOCK = res.rows.item(index).stock;
             
             
@@ -157,12 +158,21 @@ export class StockPage {
   }
 
   addStock(){
-    this.navCtrl.push(AjoutStockPage,{ home :this});
+    this.navCtrl.push("AjoutStockPage",{ home :this});
 
   }
 
+  stockStat(){
+    this.navCtrl.push("StatStockPage", {});
+  }
+
+  stockStat1(){
+    this.navCtrl.push("EtatStockPage", {});
+  }
+
+
   showStock(stock){
-    this.navCtrl.push(StockDisplayPage,{ stock : stock ,home:this});
+    this.navCtrl.push("StockDisplayPage",{ stock : stock ,home:this});
   }
 
   deleteStock(stock){

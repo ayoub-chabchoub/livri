@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, ToastController } from 'ionic-angular';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
-import { AddClientPage } from '../add-client/add-client';
-import { EditClientPage } from '../edit-client/edit-client';
+
 import { CallNumber } from '@ionic-native/call-number';
-import { ClientDisplayPage } from '../client-display/client-display';
+
 import { Client } from '../../../classes/client';
 
 /**
@@ -24,6 +23,7 @@ export class ClientsPage {
   data: any = [];
   datatmp: any = [];
   showCreditaire: boolean = false;
+  static clients_modified:boolean = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public sqlite: SQLite
     , public alertController: AlertController, private callNumber: CallNumber, private toastcntrl:ToastController) {
@@ -36,6 +36,11 @@ export class ClientsPage {
   }
 
   ionViewDidEnter() {
+    if(ClientsPage.clients_modified){
+      this.getData();
+      
+      ClientsPage.clients_modified = false;
+     }
     
     this.data.sort(this.compare);
   }
@@ -76,7 +81,7 @@ export class ClientsPage {
 
   getData() {
     this.sqlite.create({
-      name: 'data.db',
+      name: 'livri.db',
       location: 'default'
     }).then((db: SQLiteObject) => {
 
@@ -86,7 +91,7 @@ export class ClientsPage {
           
           this.data = [];
           for (var index = 0; index < res.rows.length; index++) {
-
+            
             this.data.push(new Client(
               res.rows.item(index).id_clt,
               res.rows.item(index).name,
@@ -124,11 +129,11 @@ export class ClientsPage {
   }
 
   addClient() {
-    this.navCtrl.push(AddClientPage, { home: this });
+    this.navCtrl.push("AddClientPage", { home: this });
   }
 
   editClient(client) {
-    this.navCtrl.push(EditClientPage, {
+    this.navCtrl.push("EditClientPage", {
       client : client
       /*          name:client.name,
                address:client.address ,
@@ -141,7 +146,7 @@ export class ClientsPage {
 
   showClient(client) {
     
-    this.navCtrl.push(ClientDisplayPage, {
+    this.navCtrl.push("ClientDisplayPage", {
       client: client,
       home:this
     });

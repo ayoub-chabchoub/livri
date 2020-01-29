@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>client-display</ion-title>
+    <ion-title>Client</ion-title>
     <ion-buttons end>
      
       <button (click)="editClient()" ion-button icon-only>
@@ -58,6 +58,10 @@
          <div>
            <button ion-button icon-start color="iobutton" (click)="addLivraison()">
               <ion-icon name="add" ></ion-icon>
+       
+            </button>
+            <button ion-button icon-start float-right color="iobutton" (click)="clientStat()">
+              <ion-icon name="stats"></ion-icon>
        
             </button>
           </div>

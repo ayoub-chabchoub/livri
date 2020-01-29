@@ -1,12 +1,12 @@
+
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, ToastController } from 'ionic-angular';
 import { SQLite , SQLiteObject } from '@ionic-native/sqlite';
 import { Livraison } from '../../../classes/livraison';
 import { Client } from '../../../classes/client';
-import { AddLivraisonPage } from '../../livraison/add-livraison/add-livraison';
-import { LivraisonDisplayPage } from '../../livraison/livraison-display/livraison-display';
+
 import { ProductOrder } from '../../../classes/product_order';
-import { EditClientPage } from '../edit-client/edit-client';
+
 
 /**
  * Generated class for the ClientDisplayPage page.
@@ -53,7 +53,7 @@ export class ClientDisplayPage {
   getData(){
     
      this.sqlite.create({
-      name: 'data.db',
+      name: 'livri.db',
       location: 'default'
     }).then((db: SQLiteObject) => {
        
@@ -125,7 +125,7 @@ export class ClientDisplayPage {
     
     let products = [];
     this.sqlite.create({
-      name: 'data.db',
+      name: 'livri.db',
       location: 'default'
     }).then((db: SQLiteObject) => {
 
@@ -157,12 +157,12 @@ export class ClientDisplayPage {
 
 
   addLivraison(){
-    this.navCtrl.push(AddLivraisonPage,{ client : this.client,home :this});
+    this.navCtrl.push("AddLivraisonPage",{ client : this.client,home :this});
 
   }
 
   showLivraison(livraison){
-    this.navCtrl.push(LivraisonDisplayPage,{ livraison : livraison ,home:this});
+    this.navCtrl.push("LivraisonDisplayPage",{ livraison : livraison ,home:this});
   }
 
   deleteLivraison(livraison){
@@ -180,7 +180,7 @@ export class ClientDisplayPage {
   }
 
   editClient(){
-    this.navCtrl.push(EditClientPage, {
+    this.navCtrl.push("EditClientPage", {
       client : this.client
     });
   }
@@ -219,4 +219,9 @@ export class ClientDisplayPage {
 
     alert.present();
   }
+
+  clientStat() {
+    this.navCtrl.push("ClientStatPage",{client:this.client});
+  }
+  
 }

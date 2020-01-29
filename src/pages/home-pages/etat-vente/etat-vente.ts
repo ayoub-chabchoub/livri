@@ -47,7 +47,7 @@ export class EtatVentePage {
 
   getEtat(){
     this.sqlite.create({
-      name: 'data.db',
+      name: 'livri.db',
       location: 'default'
     }).then((db: SQLiteObject) => {
     
@@ -59,9 +59,9 @@ export class EtatVentePage {
           )
         .catch(e => { 
         });
-        db.executeSql('select products.id_prd,products.name,sum(productLiv.number) from products,livraisons,productLiv '+
+         db.executeSql('select products.id_prd,products.name,sum(productLiv.number) from products,livraisons,productLiv '+
          'where livraisons.id_liv=productLiv.id_liv and products.id_prd=productLiv.id_prd and livraisons.date >= ? and livraisons.date <= ? '+
-         'group by products.id_prd;',[this.begin,this.end])
+         'group by products.id_prd;',[this.begin,this.end]) 
           .then((res) => {
             console.log("then length=",res.rows.length);
             this.products = [];

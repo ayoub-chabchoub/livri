@@ -31,7 +31,7 @@ export class Client{
         return this.telephone
     }
 
-    get CREDIT(){
+    get CREDIT():number{
         return this.credit;
     }
 
@@ -62,10 +62,10 @@ export class Client{
         this.address = data.address;
         this.ville = data.ville;
         this.telephone = data.telephone;
-        this.credit = data.credit;
+        this.credit = data.credit || 0;
 
         this.sqlite.create({
-            name: 'data.db',
+            name: 'livri.db',
             location: 'default'
           })  .then((db: SQLiteObject) => {
         db.executeSql('UPDATE clients set name=?,address=?,ville=?,telephone=?, credit=? WHERE id_clt=?', [
@@ -88,7 +88,7 @@ export class Client{
     delete(){
 
         this.sqlite.create({
-            name: 'data.db',
+            name: 'livri.db',
             location: 'default'
           })
             .then((db: SQLiteObject) => {

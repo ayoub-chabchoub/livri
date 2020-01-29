@@ -8,6 +8,8 @@ import { LivraisonDisplayPage } from './livraison-display';
   ],
   imports: [
     IonicPageModule.forChild(LivraisonDisplayPage),
-  ],
+  ],exports: [
+    LivraisonDisplayPage
+  ]
 })
 export class LivraisonDisplayPageModule {}

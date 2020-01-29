@@ -2,9 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams,AlertController, ToastController } from 'ionic-angular';
 import { SQLiteObject, SQLite } from '@ionic-native/sqlite';
 import {Product} from '../../../classes/product';
-import { AddProductPage } from '../add-product/add-product';
-import { EditProductPage } from '../edit-product/edit-product';
-import { ProductDisplayPage } from '../product-display/product-display';
+
 
 
 
@@ -76,7 +74,7 @@ export class ProductsPage {
   getData(){
     
       this.sqlite.create({
-      name: 'data.db',
+      name: 'livri.db',
       location: 'default'
     }).then((db: SQLiteObject) => {
 
@@ -84,9 +82,10 @@ export class ProductsPage {
           .then(res=>{
             
           this.data = [];
-          
+          console.log("products:getData");
           for (var index = 0; index < res.rows.length; index++) {
 
+            console.dir(res.rows.item(index));
             this.data.push(new Product(
               res.rows.item(index).id_prd ,
               res.rows.item(index).name ,
@@ -126,11 +125,11 @@ export class ProductsPage {
   
       addProduct(){
         
-        this.navCtrl.push(AddProductPage,{home : this});
+        this.navCtrl.push("AddProductPage",{home : this});
       }
   
       editProduct(product ){
-        this.navCtrl.push(EditProductPage,{
+        this.navCtrl.push("EditProductPage",{
           product : product
 
         });
@@ -138,7 +137,7 @@ export class ProductsPage {
 
        showProduct(product){
         
-        this.navCtrl.push(ProductDisplayPage,{
+        this.navCtrl.push("ProductDisplayPage",{
           product:product,
           home:this
         });
@@ -173,7 +172,7 @@ export class ProductsPage {
   
   deleteProduct(product){
      
-
+    
     let index = this.data.indexOf(product, 0);
     if (index > -1) {
       this.data.splice(index, 1);
@@ -219,7 +218,7 @@ export class ProductsPage {
 static getData(products: Product[],sqlite,toastcntrl): any {
   console.log("static getdata")
   sqlite.create({
-    name: 'data.db',
+    name: 'livri.db',
     location: 'default'
   }).then((db: SQLiteObject) => {
 
@@ -228,10 +227,11 @@ static getData(products: Product[],sqlite,toastcntrl): any {
          
         products = [];
         
-
+          console.log("products:getData");
         for (var index = 0; index < res.rows.length; index++) {
-
+          //console.dir(res.rows.item(index));
           products.push(new Product(
+            
             res.rows.item(index).id_prd ,
             res.rows.item(index).name ,
             res.rows.item(index).weight ,

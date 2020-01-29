@@ -1,12 +1,15 @@
+/* import { products } from './../../../../platforms/android/app/src/main/assets/www/assets/Globals';
+import { products } from './../../../../www/assets/Globals'; */
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
-import { SelectSearchableComponent } from 'ionic-select-searchable';
+//import { SelectSearchableComponent } from 'ionic-select-searchable';
 import { HomePage } from '../../home/home';
 import { ProductsPage } from '../../product-pages/products/products';
 import { ProductOrder } from '../../../classes/product_order';
 import { SQLiteObject, SQLite } from '@ionic-native/sqlite';
 import { StockPage } from '../stock/stock';
+import { IonicSelectableComponent } from 'ionic-selectable';
 
 /**
  * Generated class for the AjoutStockPage page.
@@ -28,9 +31,10 @@ export class AjoutStockPage {
 
   products = [];
   product = [];
+  
   public form: FormGroup;
 
-  @ViewChild('myselect') selectComponent: SelectSearchableComponent;
+  @ViewChild('myselect') selectComponent: IonicSelectableComponent;//SelectSearchableComponent ;//IonicSelectableComponent;
   productsOrigin: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,private _FB: FormBuilder,public toastcntrl:ToastController,private sqlite:SQLite) {
@@ -51,16 +55,23 @@ export class AjoutStockPage {
     console.log('ionViewDidLoad AjoutStockPage');
   }
 
-  ionViewDidEnter() {
+  ionViewWillEnter() {
+    console.log('ionViewWillEnter AjoutStockPage');
     if(ProductsPage.products.length == 0 || ProductsPage.products_modified){
       ProductsPage.getData(ProductsPage.products,this.sqlite,this.toastcntrl)
       
   } 
-    if(ProductsPage.products.length == 0){
+    //if(ProductsPage.products.length == 0){
+      /* var context = this;
     var code = setInterval(function(){
+      console.log("ProductsPage.products.length test " + ProductsPage.products.length);
+      console.dir(context.products);
       if(ProductsPage.products.length){
-        this.productsOrigin = this.product2ProductOrder(ProductsPage.products);
+        context.productsOrigin = context.product2ProductOrder(ProductsPage.products);
         clearInterval(code);
+        console.dir("productsOrigin");
+        console.dir(context.productsOrigin);
+        context.remplireProducts();
       }
     },400
     );
@@ -68,10 +79,20 @@ export class AjoutStockPage {
     setTimeout(function(){
       clearInterval(code);
       
-    },2500);
+    },3500); */
+ // }
+
   }
-    this.productsOrigin = this.product2ProductOrder(ProductsPage.products);
-    this.remplireProducts();
+
+  ionViewDidEnter() {
+    if(ProductsPage.products.length){
+      this.productsOrigin = this.product2ProductOrder(ProductsPage.products);
+      //clearInterval(code);
+      console.dir("productsOrigin");
+      console.dir(this.productsOrigin);
+      this.remplireProducts();
+    }
+  
   }
 
   product2ProductOrder(products) {
@@ -90,7 +111,7 @@ export class AjoutStockPage {
   saveDate() {
 
     this.sqlite.create({
-      name: 'data.db',
+      name: 'livri.db',
       location: 'default'
     }).then((db: SQLiteObject) => {
       let id_stck;
@@ -111,10 +132,12 @@ export class AjoutStockPage {
 
             for (let i =0; i<this.product.length ; i++){
               if(id_stck){
-              db.executeSql('INSERT INTO product_stock VALUES(?,?,?)', [
+                console.dir(this.product[i]);
+              db.executeSql('INSERT INTO product_stock VALUES(?,?,?,?)', [
                 this.product[i].NUM,
                 id_stck,
-                this.product[i].ID
+                this.product[i].ID,
+                this.product[i].PRICE
                 
               ]).then(res => {
                 console.log("success to add to product_stock");
@@ -160,12 +183,27 @@ export class AjoutStockPage {
 
   }
 
+  
+  getTotalPrice() {
+    
+    let total = 0;
+    for (let j = 0; j < this.product.length; j++) {
+      if (this.product[j]) {
+        total += this.product[j].TOTAL;
+      }
+    }
+    this.form.value.total = total;
+    return total;
+    
+  }
+
   // form methods begin
 
   initProductFields(): FormGroup {
     return this._FB.group({
       name: ['', Validators.required],
-      number: [, Validators.required]
+      number: [, Validators.required],
+      price: [, Validators.required]
 
     });
   }
@@ -213,7 +251,7 @@ export class AjoutStockPage {
 
   }
 
-  productSelection(event: { component: SelectSearchableComponent, value: any }) {
+  productSelection(event: { component: IonicSelectableComponent, value: any }) {//SelectSearchableComponent
 
     this.remplireProducts();
   }
@@ -265,10 +303,10 @@ export class AjoutStockPage {
       if(this.product[i]){
       index = this.getIndex(this.product[i],this.products);
 
-      if(index > -1){
-        this.products.splice(index,1);
+        if(index > -1){
+          this.products.splice(index,1);
+        }
       }
-    }
     }
   }
  

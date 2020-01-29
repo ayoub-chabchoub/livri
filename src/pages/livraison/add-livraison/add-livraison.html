@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>add-livraison</ion-title>
+    <ion-title>Ajouter livraison</ion-title>
 
   </ion-navbar>
 
@@ -80,11 +80,18 @@
           <ion-row style="background-color: rgba(245, 245, 245, 0.836);">
 
             <ion-col col-4 class="list_table">
-              <select-searchable block item-content style="width:100%;" [(ngModel)]="product[i]" [items]="products"
+              <!-- <select-searchable block item-content style="width:100%;" [(ngModel)]="product[i]" [items]="products"
                 itemValueField="ID" itemTextField="NAME" [canSearch]="true" (onChange)="productSelection($event)"
                 formControlName="name">
 
-              </select-searchable>
+              </select-searchable> -->
+
+              <ionic-selectable
+              item-content style="width:100%;" [(ngModel)]="product[i]" [items]="products"
+              itemValueField="ID" itemTextField="NAME" [canSearch]="true" (onChange)="productSelection($event)"
+              formControlName="name">
+
+            </ionic-selectable>
 
             </ion-col>
             <ion-col col-3 class="list_table">

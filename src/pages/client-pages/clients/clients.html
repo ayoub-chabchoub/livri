@@ -5,13 +5,8 @@
   Ionic pages and navigation.
 -->
 
-<ion-content padding class="getstart">
-    
-
-    
-        <div class="align" >
-        
-      
+<ion-header>
+    <div class="align" >
         <div id="element1">
             <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
            </div>
@@ -29,8 +24,10 @@
          </button>
         </div>
       </div>
-    
+</ion-header>
 
+<ion-content padding class="getstart">
+    
   <ion-list >
     <ion-item-sliding *ngFor="let person of data" class="transboxf">
       <ion-item  (click)="showClient(person)" class="transbox">

@@ -1,0 +1,55 @@
+<!--
+  Generated template for the LoginPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>login</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding class="getstart">
+  <!-- 
+  <ion-item>
+    <ion-label style="color:white;font-size: 50px">Login</ion-label>
+  </ion-item>
+
+  <ion-item>
+      <ion-input [(ngModel)]="password">Login</ion-input>
+    </ion-item>
+    <button (click)="login()"></button> -->
+
+  <form #form="ngForm" (ngSubmit)="login()">
+    <ion-grid>
+      <ion-row color="primary" justify-content-center>
+        <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
+          <div text-center style="margin-top: 100px">
+            <h1>Login</h1>
+          </div>
+          <div padding>
+
+            <ion-item>
+              <ion-input name="password" type="password" placeholder="password" [(ngModel)]="password" required>
+              </ion-input>
+
+            </ion-item>
+            <!--  <div *ngIf="authService.authFailed" style="margin-bottom: -17px;
+              margin-top: 19px;
+              text-align: center;">
+                <span style="color:red;text-align:center">{{authService.authFailed}}</span>
+              </div> -->
+          </div>
+          <div padding>
+            <button ion-button size="default" type="submit" block>Login</button>
+
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>

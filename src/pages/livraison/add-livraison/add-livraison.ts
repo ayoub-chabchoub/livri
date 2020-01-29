@@ -2,13 +2,13 @@ import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
-import { SelectSearchableComponent } from 'ionic-select-searchable';
+//import { SelectSearchableComponent } from 'ionic-select-searchable';
 import { ProductOrder } from '../../../classes/product_order';
 import { Client } from '../../../classes/client';
 
 import { ProductsPage } from '../../product-pages/products/products';
 import { HomePage } from '../../home/home';
-
+import { IonicSelectableComponent } from 'ionic-selectable';
 
 /**
  * Generated class for the AddLivraisonPage page.
@@ -37,7 +37,7 @@ export class AddLivraisonPage {
 
   public form: FormGroup;
 
-  @ViewChild('myselect') selectComponent: SelectSearchableComponent;
+@ViewChild('myselect') selectComponent: IonicSelectableComponent;//SelectSearchableComponent;
 
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public sqlite: SQLite,
@@ -173,7 +173,7 @@ export class AddLivraisonPage {
     }
   }
 
-  productSelection(event: { component: SelectSearchableComponent, value: any }) {
+  productSelection(event: { component: IonicSelectableComponent, value: any }) {// SelectSearchableComponent
 
     this.remplireProducts();
   }
@@ -238,7 +238,7 @@ export class AddLivraisonPage {
   saveDate() {
     
     this.sqlite.create({
-      name: 'data.db',
+      name: 'livri.db',
       location: 'default'
     }).then((db: SQLiteObject) => {
       let id_liv;
@@ -253,7 +253,15 @@ export class AddLivraisonPage {
         this.form.value.total - this.form.value.remise
       ])
         .then((res) => {                               //add res
-          this.client.CREDIT += (this.form.value.total - this.form.value.remise - this.form.value.montant);
+          let r:number = (this.form.value.total - this.form.value.remise - this.form.value.montant);
+          let r1:number = this.client.CREDIT;
+          console.log(typeof r);
+          console.log(typeof r1);
+          r = Number(r);
+          r1 = Number(r1);
+          console.log(typeof r);
+          console.log(typeof r1);
+          this.client.CREDIT = r + r1;
           this.navCtrl.pop();
            db.executeSql('select last_insert_rowid();',[])
           .then((res) => {

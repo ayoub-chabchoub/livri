@@ -1,9 +1,13 @@
 import { Component } from '@angular/core';
-import { NavController, ToastController } from 'ionic-angular';
+import { NavController, ToastController, LoadingController } from 'ionic-angular';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 import { Storage } from '@ionic/storage';
 import { EtatVentePage } from '../home-pages/etat-vente/etat-vente';
 import { CleanPage } from '../home-pages/clean/clean';
+import { Papa } from 'ngx-papaparse';
+import { File } from '@ionic-native/file';
+//import { File } from '@ionic-native/file';
+
 
 @Component({
   selector: 'page-home',
@@ -15,17 +19,12 @@ export class HomePage {
   date = HomePage.getDate();
   credit: number = 0;
   etat: number = 0;
-  constructor(public navCtrl: NavController, private sqlite: SQLite, private storage: Storage, private toastcntrl: ToastController) {
+  tablesNumber = 6;
+  loading = null;
 
-    /* this.storage.get("isupdate7DbHere")
-      .then((data) => {
+  constructor(public navCtrl: NavController, private sqlite: SQLite, private storage: Storage, private toastcntrl: ToastController
+    , private papa: Papa, private file: File, public loadingController:LoadingController) {//, private file: File) {
 
-        if (data === null) {
-          this.updateDB();
-          
-
-        }
-      }); */
     this.storage.get("isDbHere")
       .then((data) => {
 
@@ -35,7 +34,71 @@ export class HomePage {
         }
       });
      
-   
+   /*    this.storage.get("isUpdate8DbHere")
+      .then((data) => {
+
+        if (data === null) {
+          this.updateDB();
+ 
+        }
+      }); */
+
+    /*   const ROOT_DIRECTORY = 'file:///';
+      this.file.listDir("/data","")
+      .then((res) => this.showMessage(res))
+      .catch(e => this.showMessage(e)); */
+ 
+     // this.file.createDir("/sdcard", 'mydir',false).then(_ => this.showMessage('Directory creeated')).catch(err => this.showMessage('Directory problem creation'));
+
+ //     this.file.checkDir(this.file.dataDirectory, 'mydir').then(_ => this.showMessage('Directory exists')).catch(err => this.showMessage('Directory doesn\'t exist'));
+/*
+      console.log("dir:");
+      console.log(this.file.);
+      this.file.createFile(this.file.documentsDirectory + "/mydir", "livriDb.txt", false)
+      .then((res)=>{this.showMessage("file created successfully");
+      console.dir(res);
+      })
+      .catch(e => {this.showMessage("problem in file cration");
+      console.dir(e);
+    }
+      ); */
+/* 
+    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs) {
+
+      console.log('file system open: ' + fs.name);
+      fs.root.getFile("newPersistentFile.txt", { create: true, exclusive: false }, function (fileEntry) {
+  
+          console.log("fileEntry is file?" + fileEntry.isFile.toString());
+          // fileEntry.name == 'someFile.txt' 
+          // fileEntry.fullPath == '/someFile.txt' 
+          writeFile(fileEntry, null);
+  
+      }, onErrorCreateFile);
+
+    }, onErrorLoadFs);
+    function writeFile(fileEntry, dataObj) {
+        // Create a FileWriter object for our FileEntry (log.txt). 
+        fileEntry.createWriter(function (fileWriter) {
+    
+            fileWriter.onwriteend = function() {
+                console.log("Successful file write...");
+                readFile(fileEntry);
+            };
+    
+            fileWriter.onerror = function (e) {
+                console.log("Failed file write: " + e.toString());
+            };
+    
+            // If data object is not passed in, 
+            // create a new Blob instead. 
+            if (!dataObj) {
+                dataObj = new Blob(['some file data'], { type: 'text/plain' });
+            }
+    
+            fileWriter.write(dataObj);
+        }); 
+    }*/
+
 
   }
 
@@ -43,10 +106,10 @@ export class HomePage {
 
   }
 
-  ionViewDidEnter() {
+  ionViewWillEnter() {
 
     this.sqlite.create({
-      name: 'data.db',
+      name: 'livri.db',
       location: 'default'
     }).then((db: SQLiteObject) => {
 
@@ -97,7 +160,7 @@ export class HomePage {
 
  /*  tmpUpdateDB(): any {
     this.sqlite.create({
-      name: 'data.db',
+      name: 'livri.db',
       location: 'default'
     }).then((db: SQLiteObject) => {
 
@@ -134,80 +197,28 @@ export class HomePage {
   }*/
 
 
- /* updateDB(): any {
+  updateDB(): any {
     this.sqlite.create({
-      name: 'data.db',
+      name: 'livri.db',
       location: 'default'
     }).then((db: SQLiteObject) => {
 
-       db.executeSql("CREATE TABLE IF NOT EXISTS stock(id integer primary key, date TEXT);", []).
+       db.executeSql("ALTER TABLE product_stock add column price number;", []).
          then(() => {
-           console.log("create table stock good normal");
-           db.executeSql("CREATE TABLE IF NOT EXISTS product_stock( name TEXT , num number , id_stock number REFERENCES stock(id) on delete cascade,id_prd number references products(id_prd),primary key(id_stock,id_prd));", []).
-             then(() => {
-               console.log("create table product_stock good normal");
-               db.executeSql("ALTER TABLE products ADD COLUMN stock Float DEFAULT 0", []).
-                 then(() => {
-                   console.log("alter table good");
-                   db.executeSql("ALTER TABLE livraisons ADD COLUMN prix_nette Float", []).
-                     then(() => {
-                       console.log("alter table good");
-                       this.showMessage('la base de données a été modifié', 8000);
-                       this.storage.set("isupdateDbHere", "true");
-                     }).catch((e) => { console.log("alter table not good") });
-                 }).catch((e) => { console.log("alter table not good") });
-             }).catch((e) => { console.log("create table product_stock not good") });
-         }).catch((e) => { console.log("create table stock not good") });
-
-      db.executeSql('drop table if exists productLiv;', []
-      ).then(() => {
-        console.log("drop table if exists productLiv");
-        db.executeSql('drop table if exists product_stock;', []
-        ).then(() => {
-          console.log("drop table product_stock");
-          db.executeSql('drop table if exists livraisons;', []
-          ).then(() => {
-            console.log("drop table livraisons");
-            db.executeSql('drop table if exists stock;', []
-            ).then(() => {
-              console.log("drop table stock");
-              db.executeSql('drop table if exists products;', []
-              ).then(() => {
-                console.log("drop table products");
-                db.executeSql('drop table if exists clients;', []
-                ).then(() => {
-                  console.log("drop table clients");
-
-                  this.showMessage('la base de données a été modifié', 8000);
-                  this.storage.set("isupdate7DbHere", "true");
-                  this.createDB();
-                }).catch((e) => {
-                  console.log("problem drop table clients")
-                });
-              }).catch((e) => {
-                console.log("problem drop table products")
-              });
-            }).catch((e) => {
-              console.log("problem drop table stock")
-            });
-          }).catch((e) => {
-            console.log("problem drop table livraisons")
-          });
-        }).catch((e) => {
-          console.log("problem drop table product_stock")
-        });
-      }).catch((e) => {
-        console.log("problem drop table productLiv")
-      });
+           
+          this.showMessage("Alter table success");
+          this.storage.set("isUpdate8DbHere", "true");
+        
+         }).catch((e) => { this.showMessage("Alter table failed"); });
 
     });
 
-  }*/
+  }
 
   private createDB() {
-
+    
     this.sqlite.create({
-      name: 'data.db',
+      name: 'livri.db',
       location: 'default'
     }).then((db: SQLiteObject) => {
       db.executeSql('CREATE TABLE IF NOT EXISTS clients(id_clt INTEGER PRIMARY KEY,name TEXT,address TEXT, ville TEXT, telephone Text , credit FLOAT);'
@@ -229,7 +240,7 @@ export class HomePage {
                         .then(() => {
                           console.log("create table stock good")
 
-                          db.executeSql("CREATE TABLE IF NOT EXISTS product_stock( num number , id_stock number REFERENCES stock(id) on delete cascade,id_prd number references products(id_prd),primary key(id_stock,id_prd));", []).
+                          db.executeSql("CREATE TABLE IF NOT EXISTS product_stock( num number , id_stock number REFERENCES stock(id) on delete cascade,id_prd number references products(id_prd), price number, primary key(id_stock,id_prd));", []).
                             then(() => {
                               console.log("create table product_stock good");
                               this.showMessage('la base de données a été crée', 8000);
@@ -259,17 +270,121 @@ export class HomePage {
   }
 
   etatDeVente() {
-    this.navCtrl.push(EtatVentePage, {
-
-    });
+    this.navCtrl.push(EtatVentePage, {});
   }
 
+ 
   clean() {
 
-
     this.navCtrl.push(CleanPage, {});
+  }
+
+  async exportDb() {
+    
+    this.loading = this.loadingController.create({
+      content: "uploading data ...",
+    });
+    await this.loading.present();
+    this.createCSV('clients')
+    this.createCSV('livraisons')
+    this.createCSV('products')
+    this.createCSV('productLiv')
+    this.createCSV('stock')
+    this.createCSV('product_stock')
+    
+  }
+
+  createCSV(table: String) {
+
+    var tableList = []
+    this.sqlite.create({
+      name: 'livri.db',
+      location: 'default'
+    }).then((db: SQLiteObject) => {
+      db.executeSql("select * from " + table + ";", [])
+        .then(res => {
+          console.dir("select");
+          console.dir(res.rows);
+          console.dir(res.rows.item(0));
+
+          for (var index = 0; index < res.rows.length; index++) {
+
+            tableList.push(res.rows.item(index));
+          }
+          console.dir("tableList")
+          console.dir(tableList)
+
+          this.file.createDir(this.file.externalRootDirectory, "Livri", true).then(
+            dirEntry => {
+              console.dir("dirEntry");
+              console.dir(dirEntry);
+
+              this.file.writeFile(dirEntry.nativeURL, table + '.csv', this.papa.unparse(tableList), { replace: true })
+                .then(res => {
+                  console.dir("writefile")
+                  console.dir(res);
+                  console.dir(res.nativeURL);
+
+                  this.tablesNumber--;
+
+                  if(!this.tablesNumber){
+               
+                    this.showMessage("la base de données a été exporté dans le dossier livri");
+                    this.loading.dismiss();
+                    this.tablesNumber = 6;
+
+                  }
+                  /* this.http.get(res.nativeURL, {responseType:'text'}).subscribe(
+                    data => console.dir(data),
+                    err => console.dir(err)
+                    ) */
+
+                  /* this.socialSharing.canShareViaEmail().then(res => {
+                    console.dir("canShareViaEmail")
+                    console.dir(res);
+                  }).catch(err => {
+                    console.dir("err canShareViaEmail");
+                    console.dir(err);
+         
+                  }); 
+
+
+                  this.socialSharing.share(null, null, res.nativeUrl, null).then(res => {
+                    console.dir("social")
+                    console.dir(res);
+                  }).catch(err => {
+                    console.dir("err social");
+                    console.dir(err);
+
+                  });*/
+                }).catch(err => {
+                  console.dir("err writefile");
+                  console.dir(err);
+
+
+                });
+            }
+          ).catch(err => {
+            console.dir("err");
+            console.dir(err);
+          })
+
+
+
+        }).catch(err => {
+          console.dir("err sqliteObject");
+          console.dir(err);
+          console.dir(err.rows.item(0));
+
+        });
+    }).catch(err => {
+      console.dir("err sqlite");
+      console.dir(err);
+
+    });
 
 
   }
+
 
 }

@@ -62,10 +62,10 @@ export class Product {
 
 
     this.sqlite.create({
-      name: 'data.db',
+      name: 'livri.db',
       location: 'default'
     }).then((db: SQLiteObject) => {
-      db.executeSql('UPDATE products set name=?,weight=?,unit=?,price=? stock=? WHERE id_prd=?', [
+      db.executeSql('UPDATE products set name=?,weight=?,unit=?,price=?,stock=? WHERE id_prd=?', [
         data.name,
         data.weight,
         data.unit,
@@ -75,9 +75,13 @@ export class Product {
       ])
         .then((res) => {
 
+          console.log("update product success");
 
         })
-        .catch(e => { });
+        .catch(e => {
+          console.log("update product failed");
+          console.dir(e);
+         });
     }).catch(e => { });
 
   }
@@ -85,7 +89,7 @@ export class Product {
   delete() {
 
     this.sqlite.create({
-      name: 'data.db',
+      name: 'livri.db',
       location: 'default'
     })
       .then((db: SQLiteObject) => {

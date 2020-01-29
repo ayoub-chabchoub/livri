@@ -8,6 +8,8 @@ import { StockDisplayPage } from './stock-display';
   ],
   imports: [
     IonicPageModule.forChild(StockDisplayPage),
-  ],
+  ],exports: [
+    StockDisplayPage
+  ]
 })
 export class StockDisplayPageModule {}
