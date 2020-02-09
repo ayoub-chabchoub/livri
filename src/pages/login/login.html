@@ -24,7 +24,7 @@
     </ion-item>
     <button (click)="login()"></button> -->
 
-  <form #form="ngForm" (ngSubmit)="login()">
+  
     <ion-grid>
       <ion-row color="primary" justify-content-center>
         <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
@@ -34,7 +34,7 @@
           <div padding>
 
             <ion-item>
-              <ion-input name="password" type="password" placeholder="password" [(ngModel)]="password" required>
+              <ion-input name="password" type="password" placeholder="password" [(ngModel)]="password" >
               </ion-input>
 
             </ion-item>
@@ -45,11 +45,11 @@
               </div> -->
           </div>
           <div padding>
-            <button ion-button size="default" type="submit" block>Login</button>
+            <button ion-button size="default" (click)="login()" block>Login</button>
 
           </div>
         </ion-col>
       </ion-row>
     </ion-grid>
-  </form>
+  
 </ion-content>

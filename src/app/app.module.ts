@@ -12,8 +12,6 @@ import { IonicStorageModule } from '@ionic/storage';
 import { CallNumber } from '@ionic-native/call-number';
 import { EtatVentePage } from '../pages/home-pages/etat-vente/etat-vente';
 import { CleanPage } from '../pages/home-pages/clean/clean';
-import { EtatStockPage } from '../pages/stock-pages/etat-stock/etat-stock';
-
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -35,6 +33,7 @@ import { LoginPage } from '../pages/login/login';
 import { AuthProvider } from '../providers/auth/auth';
 import { IonicSelectableModule } from 'ionic-selectable';
 import { StockPage } from '../pages/stock-pages/stock/stock';
+import { DataLoadingProvider } from '../providers/data-loading/data-loading';
 
 
 @NgModule({
@@ -87,7 +86,8 @@ import { StockPage } from '../pages/stock-pages/stock/stock';
     FilePath,
     File,
     SocialSharing,
-    AuthProvider
+    AuthProvider,
+    DataLoadingProvider
     
   ]
 })

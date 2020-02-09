@@ -21,9 +21,10 @@ import { ProductOrder } from '../../../classes/product_order';
 export class StockPage {
   noOfstck: number = 5;
   stockList: Stock[] = [];
-  static stockModified:boolean = false; 
-  constructor(public navCtrl: NavController, public navParams: NavParams,private sqlite:SQLite,private toastcntrl:ToastController
-    ,private alertController:AlertController) {
+  static stockModified:boolean = false;
+
+  constructor(public navCtrl: NavController, public navParams: NavParams,private sqlite:SQLite,private toastcntrl:ToastController,
+    private alertController:AlertController) {
   }
 
   ionViewDidLoad() {

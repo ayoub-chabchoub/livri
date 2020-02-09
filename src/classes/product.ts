@@ -5,7 +5,7 @@ import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 export class Product {
 
 
-  constructor(private id, private name, private weight?: number, private unit?: string, public price?: number, public stock?: number, public sqlite?: SQLite) {
+  constructor(private id, private name, private weight?: number, private unit?: string, public price?: number, public stock?: number,public pack?: number, public sqlite?: SQLite) {
 
     if (!this.price) {
       this.price = 0;
@@ -41,6 +41,14 @@ export class Product {
     this.stock = stock;
   }
 
+  get PACK(): number {
+    return this.pack;
+  }
+
+  set PACK(pack: number) {
+    this.pack = pack;
+  }
+
   set ADD2STOCK(stock: number) {
     this.stock += stock;
   }
@@ -59,18 +67,20 @@ export class Product {
     this.unit = data.unit;
     this.price = data.price;
     this.stock = data.stock;
+    this.pack = data.pack;
 
 
     this.sqlite.create({
       name: 'livri.db',
       location: 'default'
     }).then((db: SQLiteObject) => {
-      db.executeSql('UPDATE products set name=?,weight=?,unit=?,price=?,stock=? WHERE id_prd=?', [
+      db.executeSql('UPDATE products set name=?,weight=?,unit=?,price=?,stock=?,pack=? WHERE id_prd=?', [
         data.name,
         data.weight,
         data.unit,
         data.price,
         data.stock,
+        data.pack,
         this.id,
       ])
         .then((res) => {

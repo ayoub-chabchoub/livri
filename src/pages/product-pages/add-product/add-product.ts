@@ -22,7 +22,8 @@ export class AddProductPage {
     weight:''  ,
     unit:''   ,
     price:''  ,
-    stock:''
+    stock:'',
+    pack:1,
 
   } 
  
@@ -41,6 +42,7 @@ export class AddProductPage {
         duration:dur
       });
       toast.present();
+      console.dir(msg);
       
     }
   
@@ -50,12 +52,13 @@ export class AddProductPage {
         name: 'livri.db',
         location: 'default'
       }).then((db: SQLiteObject) => {
-          db.executeSql('INSERT INTO products VALUES(NULL,? ,?,?,?,?,0)', [
+          db.executeSql('INSERT INTO products VALUES(NULL,? ,?,?,?,?,0,?)', [
             this.data.name,
             this.data.weight,
             this.data.unit,
             this.data.price,
-            this.data.stock
+            this.data.stock,
+            this.data.pack,
           ])
           .then((res) => {                               //add res
             this.showMessage('Produit ajouté');

@@ -17,36 +17,40 @@
 
 
 
-    <form (ngSubmit)="update()" >
-      <ion-item>
-        <ion-label>nom : </ion-label>
-        <ion-input type="text" [(ngModel)]="data.name" name="name"></ion-input>
-      </ion-item>
+  <form (ngSubmit)="update()">
+    <ion-item>
+      <ion-label>nom : </ion-label>
+      <ion-input type="text" [(ngModel)]="data.name" name="name"></ion-input>
+    </ion-item>
 
-      <ion-item>
-          <ion-label>poids : </ion-label>
-          <ion-input type="number" [(ngModel)]="data.weight" name="weight"   ></ion-input>
-      </ion-item>
+    <ion-item>
+      <ion-label>poids : </ion-label>
+      <ion-input type="number" [(ngModel)]="data.weight" name="weight"></ion-input>
+    </ion-item>
 
-      <ion-item>
-        <ion-label>unité : </ion-label>
-        <ion-select [(ngModel)]="data.unit" name="unit">
-          <ion-option value="Kg">Kg</ion-option>
-          <ion-option value="g">g</ion-option>
-     </ion-select>
-       </ion-item>
+    <ion-item>
+      <ion-label>unité : </ion-label>
+      <ion-select [(ngModel)]="data.unit" name="unit">
+        <ion-option value="Kg">Kg</ion-option>
+        <ion-option value="g">g</ion-option>
+      </ion-select>
+    </ion-item>
 
-     <ion-item>
-            <ion-label>prix : </ion-label>
-            <ion-input type="number" [(ngModel)]="data.price" name="price"></ion-input>
-      </ion-item>
+    <ion-item>
+      <ion-label>prix : </ion-label>
+      <ion-input type="number" [(ngModel)]="data.price" name="price"></ion-input>
+    </ion-item>
 
-      <ion-item>
-        <ion-label>stock : </ion-label>
-        <ion-input type="number" [(ngModel)]="data.stock" name="stock"></ion-input>
-  </ion-item>
+    <ion-item>
+      <ion-label>stock : </ion-label>
+      <ion-input type="number" [(ngModel)]="data.stock" name="stock"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>pack : </ion-label>
+      <ion-input type="number" [(ngModel)]="data.pack" name="pack"></ion-input>
+    </ion-item>
 
-        <button ion-button type="submit" block  color="secondary">Update</button>
-      </form>
+    <button ion-button type="submit" block color="secondary">Update</button>
+  </form>
 
 </ion-content>

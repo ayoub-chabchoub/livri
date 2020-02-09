@@ -115,11 +115,20 @@
 
           <!-- Allow generated input field to be removed -->
           <ion-row>
+              <ion-col col-4>
             <span float-right ion-button icon-left style="background-color: rgba(245, 245, 245, 0.8);" clear
               *ngIf="form.controls.products.length > 0" (click)="removeInputField(i)">
               <ion-icon name="close"></ion-icon>
               Supprimer
             </span>
+          </ion-col>
+          <ion-col col-2>
+            <span float-right ion-button style="background-color: rgba(245, 245, 245, 0.8);" clear *ngIf="product[i] && product[i].PACK>1"
+               (click)="multiplyNumber(i)">
+              
+              x{{product[i].PACK}}
+            </span>        
+        </ion-col>
           </ion-row>
 
         </ion-grid>

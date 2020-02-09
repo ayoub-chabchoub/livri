@@ -30,18 +30,18 @@ export class HomePage {
 
         if (data === null) {
           this.createDB();
-
         }
+
       });
      
-   /*    this.storage.get("isUpdate8DbHere")
+       this.storage.get("isUpdate9DbHere")
       .then((data) => {
 
         if (data === null) {
           this.updateDB();
  
         }
-      }); */
+      });
 
     /*   const ROOT_DIRECTORY = 'file:///';
       this.file.listDir("/data","")
@@ -203,13 +203,17 @@ export class HomePage {
       location: 'default'
     }).then((db: SQLiteObject) => {
 
-       db.executeSql("ALTER TABLE product_stock add column price number;", []).
+       db.executeSql("ALTER TABLE products add column pack number default 1;", []).
          then(() => {
            
-          this.showMessage("Alter table success");
-          this.storage.set("isUpdate8DbHere", "true");
+          this.showMessage("base de données modifier avec succees");
+          this.storage.set("isUpdate9DbHere", "true");
         
-         }).catch((e) => { this.showMessage("Alter table failed"); });
+         }).catch((e) => { 
+           this.showMessage("Alter table failed");
+           console.dir(e);
+           this.storage.set("isUpdate9DbHere", "true");
+         });
 
     });
 
@@ -229,7 +233,7 @@ export class HomePage {
             ' FOREIGN KEY (id_clt) REFERENCES clients (id_clt) on delete cascade);'
             , []).then(() => {
 
-              db.executeSql('CREATE TABLE IF NOT EXISTS products(id_prd INTEGER PRIMARY KEY,name TEXT,weight FLOAT, unit TEXT ,price FLOAT,stock FLOAT default 0,deleted INTEGER default 0);'
+              db.executeSql('CREATE TABLE IF NOT EXISTS products(id_prd INTEGER PRIMARY KEY,name TEXT,weight FLOAT, unit TEXT ,price FLOAT,stock FLOAT default 0,deleted INTEGER default 0,pack number default 1);'
                 , []).then(() => {
 
                   db.executeSql('CREATE TABLE IF NOT EXISTS productLiv(id_prd INTEGER, id_liv INTEGER, price FLOAT , number INTEGER, ' +

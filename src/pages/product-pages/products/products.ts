@@ -1,7 +1,8 @@
+import { DataLoadingProvider } from './../../../providers/data-loading/data-loading';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams,AlertController, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, ToastController } from 'ionic-angular';
 import { SQLiteObject, SQLite } from '@ionic-native/sqlite';
-import {Product} from '../../../classes/product';
+import { Product } from '../../../classes/product';
 
 
 
@@ -19,44 +20,41 @@ import {Product} from '../../../classes/product';
   templateUrl: 'products.html',
 })
 export class ProductsPage {
-  
 
-  static products:Product[] = [];
-  static products_modified:boolean = false;
-  data:any = [];
-  datatmp:any = [];
+  static products: Product[] = [];
+  static products_modified: boolean = false;
+  data: any = [];
+  datatmp: any = [];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams ,public sqlite:SQLite,
-     public toastcntrl:ToastController,public alertController:AlertController) { 
- 
+  constructor(public navCtrl: NavController, public navParams: NavParams,public dataLoading:DataLoadingProvider, public sqlite: SQLite,
+    public toastcntrl: ToastController, public alertController: AlertController) {
+
   }
 
-  ionViewDidLoad(){
+  ionViewDidLoad() {
     console.log("ionViewDidLoad")
-    console.dir(ProductsPage.products);
-    if(ProductsPage.products.length == 0){
+    console.dir(this.dataLoading.products);
+    if (this.dataLoading.products.length == 0) {
       this.getData();
-    }else{
-      this.data = ProductsPage.products;
+    } else {
+      this.data = this.dataLoading.products;
     }
     console.dir("this.data");
     console.dir(this.data);
-    }
+  }
 
-   ionViewDidEnter(){
-   if(ProductsPage.products_modified){
-    this.getData();
-    
-    ProductsPage.products_modified = false;
-   }
-    this.data.sort(function(a, b){
+  ionViewDidEnter() {
+    /* if (ProductsPage.products_modified) {
+      this.getData();
+
+      ProductsPage.products_modified = false;
+    } */
+    this.data.sort(function (a, b) {
       if (a.NAME > b.NAME) return 1;
       else return -1;
     });
-  
-  } 
-  
-  
+  }
+
   doRefresh(refresher) {
     console.log('Begin async operation', refresher);
     this.getData();
@@ -65,193 +63,191 @@ export class ProductsPage {
       refresher.complete();
     }, 2000);
   }
-  
-  
-  refresh(){
+
+  refresh() {
     this.getData();
   }
-  
-  getData(){
-    
-      this.sqlite.create({
+
+  getData() {
+
+    this.sqlite.create({
       name: 'livri.db',
       location: 'default'
     }).then((db: SQLiteObject) => {
 
-        db.executeSql('SELECT * FROM products where deleted=0 ORDER BY name',[] )
-          .then(res=>{
-            
+      db.executeSql('SELECT * FROM products where deleted=0 ORDER BY name', [])
+        .then(res => {
+
           this.data = [];
           console.log("products:getData");
           for (var index = 0; index < res.rows.length; index++) {
 
             console.dir(res.rows.item(index));
             this.data.push(new Product(
-              res.rows.item(index).id_prd ,
-              res.rows.item(index).name ,
-              res.rows.item(index).weight ,
-              res.rows.item(index).unit ,
-              res.rows.item(index).price ,
-              res.rows.item(index).stock ,
+              res.rows.item(index).id_prd,
+              res.rows.item(index).name,
+              res.rows.item(index).weight,
+              res.rows.item(index).unit,
+              res.rows.item(index).price,
+              res.rows.item(index).stock,
+              res.rows.item(index).pack,
               this.sqlite
             ));
           }
 
-          this.data.sort(function(a, b){
+          this.data.sort(function (a, b) {
             if (a.NAME > b.NAME) return 1;
             else return -1;
           });
-    
-          ProductsPage.products = this.data;
-          }).catch(e => console.log(e));
-      }).catch(e => console.log(e)); 
-     /*  ProductsPage.getData(this.data,this.sqlite,this.toastcntrl);
-      console.log("supposé aprés ProductsPage.products"); */
-      //this.data = ProductsPage.products;
-    
+
+          this.dataLoading.products = this.data;
+        }).catch(e => console.log(e));
+    }).catch(e => console.log(e));
+    /*  ProductsPage.getData(this.data,this.sqlite,this.toastcntrl);
+     console.log("supposé aprés ProductsPage.products"); */
+    //this.data = ProductsPage.products;
+
   }
 
-  static showMessage(msg,dur =2000 , toastcntrl){
+  static showMessage(msg, dur = 2000, toastcntrl) {
     let toast = toastcntrl.create({
-      message:msg,
-      duration:dur
+      message: msg,
+      duration: dur
     });
     toast.present();
     console.dir(msg);
-    
   }
-   
-  
-  
-      addProduct(){
-        
-        this.navCtrl.push("AddProductPage",{home : this});
-      }
-  
-      editProduct(product ){
-        this.navCtrl.push("EditProductPage",{
-          product : product
 
-        });
-      }
+  addProduct() {
 
-       showProduct(product){
-        
-        this.navCtrl.push("ProductDisplayPage",{
-          product:product,
-          home:this
-        });
+    this.navCtrl.push("AddProductPage", { home: this });
+  }
 
-      } 
-  
-  
-        presentAlertConfirm(product) {
-        let alert =  this.alertController.create({
-          title: 'Confirm!',
-          message: 'vous êtes sur, vous voulez supprimer ce produit?',
-          buttons: [
-            {
-              text: 'non',
-              role: 'cancel',
-              cssClass: 'secondary',
-              handler: (blah) => {
-                console.log('Confirm Cancel: blah');
-              }
-            }, {
-              text: 'oui',
-              handler: () => {
-                
-                this.deleteProduct(product);
-              }
-            }
-          ]
-        });
-    
-         alert.present();
-      }  
-  
-  deleteProduct(product){
-     
-    
+  editProduct(product) {
+    this.navCtrl.push("EditProductPage", {
+      product: product
+
+    });
+  }
+
+  showProduct(product) {
+
+    this.navCtrl.push("ProductDisplayPage", {
+      product: product,
+      home: this
+    });
+
+  }
+
+
+  presentAlertConfirm(product) {
+    let alert = this.alertController.create({
+      title: 'Confirm!',
+      message: 'vous êtes sur, vous voulez supprimer ce produit?',
+      buttons: [
+        {
+          text: 'non',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+            console.log('Confirm Cancel: blah');
+          }
+        }, {
+          text: 'oui',
+          handler: () => {
+
+            this.deleteProduct(product);
+          }
+        }
+      ]
+    });
+
+    alert.present();
+  }
+
+  deleteProduct(product) {
+
+
     let index = this.data.indexOf(product, 0);
     if (index > -1) {
       this.data.splice(index, 1);
     }
-    index = ProductsPage.products.indexOf(product, 0);
+    index = this.dataLoading.products.indexOf(product, 0);
     if (index > -1) {
-      ProductsPage.products.splice(index, 1);
+      this.dataLoading.products.splice(index, 1);
     }
     product.delete();
   }
 
-  copyArray(data){
+  copyArray(data) {
     let tmp = [];
-    for(let i=0;i<data.length;i++){
+    for (let i = 0; i < data.length; i++) {
       tmp.push(data[i]);
     }
     return tmp;
 
   }
 
-  getItems(ev){
-   
+  getItems(ev) {
+
     // set val to the value of the ev target
     var val = ev.target.value;
-    if(this.datatmp.length == 0){
-    this.datatmp = this.copyArray(this.data)
+    if (this.datatmp.length == 0) {
+      this.datatmp = this.copyArray(this.data)
     }
     // if the value is an empty string don't filter the items
     if (val && val.trim() != '') {
-    this.data = this.datatmp.filter((item) => {
+      this.data = this.datatmp.filter((item) => {
         return (item.NAME.toLowerCase().indexOf(val.toLowerCase()) == 0);
-    });
-    this.data = this.data.concat(this.datatmp.filter((item) => {
-      return (item.NAME.toLowerCase().indexOf(val.toLowerCase()) > 0);
-  }));
-    
-    }else{
+      });
+      this.data = this.data.concat(this.datatmp.filter((item) => {
+        return (item.NAME.toLowerCase().indexOf(val.toLowerCase()) > 0);
+      }));
+
+    } else {
       this.data = this.copyArray(this.datatmp);
       this.datatmp = [];
-    }   
-}
+    }
+  }
 
-static getData(products: Product[],sqlite,toastcntrl): any {
-  console.log("static getdata")
-  sqlite.create({
-    name: 'livri.db',
-    location: 'default'
-  }).then((db: SQLiteObject) => {
+ /* static getData(products: Product[], sqlite, toastcntrl): any {
+    console.log("static getdata")
+    sqlite.create({
+      name: 'livri.db',
+      location: 'default'
+    }).then((db: SQLiteObject) => {
 
-      db.executeSql('SELECT * FROM products where deleted=0 ORDER BY name',[] )
-        .then(res=>{
-         
-        products = [];
-        
+      db.executeSql('SELECT * FROM products where deleted=0 ORDER BY name', [])
+        .then(res => {
+
+          products = [];
+
           console.log("products:getData");
-        for (var index = 0; index < res.rows.length; index++) {
-          //console.dir(res.rows.item(index));
-          products.push(new Product(
-            
-            res.rows.item(index).id_prd ,
-            res.rows.item(index).name ,
-            res.rows.item(index).weight ,
-            res.rows.item(index).unit ,
-            res.rows.item(index).price ,
-            res.rows.item(index).stock ,
-            sqlite
-          ));
+          for (var index = 0; index < res.rows.length; index++) {
+            //console.dir(res.rows.item(index));
+            products.push(new Product(
 
-        }
+              res.rows.item(index).id_prd,
+              res.rows.item(index).name,
+              res.rows.item(index).weight,
+              res.rows.item(index).unit,
+              res.rows.item(index).price,
+              res.rows.item(index).stock,
+              res.rows.item(index).pack,
+              sqlite
+            ));
 
-        
-        ProductsPage.products = products;
-        console.log("ProductsPage.products");
-        console.log(ProductsPage.products);
-        
-        /* home.ionViewDidEnter();
-        home.remplireProducts(); */
-        }).catch(e => ProductsPage.showMessage('error select' ,6000,toastcntrl));
-    }).catch(e => ProductsPage.showMessage('error creation of db' ,6000,toastcntrl));
+          }
 
-}
+
+          ProductsPage.products = products;
+          console.log("ProductsPage.products");
+          console.log(ProductsPage.products);
+
+          /* home.ionViewDidEnter();
+          home.remplireProducts(); *
+        }).catch(e => ProductsPage.showMessage('error select', 6000, toastcntrl));
+    }).catch(e => ProductsPage.showMessage('error creation of db', 6000, toastcntrl));
+
+  }*/
 }

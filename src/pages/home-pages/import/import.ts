@@ -1,3 +1,4 @@
+import { DataLoadingProvider } from './../../../providers/data-loading/data-loading';
 import { StockPage } from './../../stock-pages/stock/stock';
 import { ClientsPage } from './../../client-pages/clients/clients';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
@@ -7,7 +8,6 @@ import { IonicPage, NavController, NavParams, AlertController, ToastController, 
 import { FileChooser } from '@ionic-native/file-chooser';
 import { FilePath } from '@ionic-native/file-path';
 import { File } from '@ionic-native/file';
-import { ProductsPage } from '../../product-pages/products/products';
 
 /**
  * Generated class for the ImportPage page.
@@ -36,7 +36,7 @@ export class ImportPage {
   numOfTuples = 0;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private fileChooser: FileChooser, private loadingController: LoadingController
-    , private filePath: FilePath, private file: File, private alertController: AlertController, private papa: Papa,
+    , private filePath: FilePath, private file: File, private alertController: AlertController, private papa: Papa, private dataLoading:DataLoadingProvider,
     private sqlite: SQLite, private toastcntrl: ToastController) {
   }
 
@@ -90,9 +90,6 @@ export class ImportPage {
       content: "uploading data ..." ,
     });
     await loading.present();
-    //let end = false;
-    let success = true;
-    let error = false;
    
     this.sqlite.create({
       name: 'livri.db',
@@ -158,7 +155,8 @@ export class ImportPage {
                       this.showMessage("success", 6000)
                       this.navCtrl.pop();
                       ClientsPage.clients_modified = true;
-                      ProductsPage.products_modified = true;
+                      //ProductsPage.products_modified = true;
+                      this.dataLoading.getProducts();
                       StockPage.stockModified = true;
                       //success = true;
                       loading.dismiss();

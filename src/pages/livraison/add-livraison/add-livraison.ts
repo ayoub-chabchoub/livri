@@ -1,3 +1,4 @@
+import { DataLoadingProvider } from './../../../providers/data-loading/data-loading';
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
@@ -5,8 +6,6 @@ import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 //import { SelectSearchableComponent } from 'ionic-select-searchable';
 import { ProductOrder } from '../../../classes/product_order';
 import { Client } from '../../../classes/client';
-
-import { ProductsPage } from '../../product-pages/products/products';
 import { HomePage } from '../../home/home';
 import { IonicSelectableComponent } from 'ionic-selectable';
 
@@ -40,7 +39,7 @@ export class AddLivraisonPage {
 @ViewChild('myselect') selectComponent: IonicSelectableComponent;//SelectSearchableComponent;
 
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public sqlite: SQLite,
+  constructor(public navCtrl: NavController, public navParams: NavParams, public sqlite: SQLite, public dataLoading:DataLoadingProvider,
      private _FB: FormBuilder, private toastcntrl: ToastController) {
     this.client = this.navParams.get("client");
     
@@ -63,7 +62,6 @@ export class AddLivraisonPage {
 
   }
 
-
   ionViewDidLoad() {
 
     this.removeInputField(0);
@@ -72,10 +70,10 @@ export class AddLivraisonPage {
   }
 
   ionViewDidEnter() {
-    if(ProductsPage.products.length == 0 || ProductsPage.products_modified){
+   /*  if(ProductsPage.products.length == 0 || ProductsPage.products_modified){
       ProductsPage.getData(ProductsPage.products,this.sqlite,this.toastcntrl)
       
-  } 
+  }  
     if(ProductsPage.products.length == 0){
     var code = setInterval(function(){
       if(ProductsPage.products.length){
@@ -88,8 +86,8 @@ export class AddLivraisonPage {
       clearInterval(code);
       
     },2500);
-  }
-    this.productsOrigin = this.product2ProductOrder(ProductsPage.products);
+  }*/
+    this.productsOrigin = this.product2ProductOrder(this.dataLoading.products);
     this.remplireProducts();
   }
 
@@ -99,7 +97,7 @@ export class AddLivraisonPage {
     for (let i = 0; i < products.length; i++) {
 
       productOrders = productOrders.concat(new ProductOrder(products[i].ID, products[i].NAME, products[i].WEIGHT, products[i].UNIT,
-        products[i].PRICE,products[i].STOCK));
+        products[i].PRICE,products[i].STOCK,products[i].PACK));
 
     }
     return productOrders;
@@ -162,13 +160,14 @@ export class AddLivraisonPage {
     }
 
     this.product.splice(i, 1);
+    this.remplireProducts();
 
   }
 
   getdefaultPrice(id){
-    for(let i=0; i<ProductsPage.products.length;i++){
-      if( ProductsPage.products[i].ID == id){
-        return ProductsPage.products[i].PRICE;
+    for(let i=0; i<this.dataLoading.products.length;i++){
+      if( this.dataLoading.products[i].ID == id){
+        return this.dataLoading.products[i].PRICE;
       }
     }
   }
@@ -224,7 +223,13 @@ export class AddLivraisonPage {
       tmp.push(data[i]);
     }
     return tmp;
+  }
 
+  multiplyNumber(i){
+    console.log("multiplyNumber clicked")
+    console.log(this.products[i].NUM)
+    console.log(this.products[i].PACK)
+    this.product[i].NUM *=  this.product[i].PACK;
   }
 
   showMessage(msg,dur =2000){
@@ -286,7 +291,8 @@ export class AddLivraisonPage {
               ])
                 .then((res) => {
                   console.log("update products");
-                  ProductsPage.products_modified = true;
+                  //ProductsPage.products_modified = true;
+                  this.dataLoading.getProducts();
                 })
                 .catch(e => {console.log("problem update products");});
                 

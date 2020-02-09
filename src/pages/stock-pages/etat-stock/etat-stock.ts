@@ -68,10 +68,11 @@ export class EtatStockPage {
             for (let i=0;i<res.rows.length;i++){
               
                 let index = this.findInTable(this.products,res.rows.item(i).id_prd);
-              
+               this.etat += res.rows.item(i).price * res.rows.item(i).num;
               if(index > -1) {
                 this.products[index].NUM += res.rows.item(i).num;
                 this.products[index].PRICE += res.rows.item(i).price * res.rows.item(i).num;
+                
               } else {
                 let product = new ProductOrder(res.rows.item(i).id_prd,res.rows.item(i).name);
                 product.NUM = res.rows.item(i).num;

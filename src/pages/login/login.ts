@@ -27,7 +27,7 @@ export class LoginPage {
 
   login() {
 
-    if (this.authProvider.matchPassword(this.password)) {
+    if (this.password.length >0 && this.authProvider.matchPassword(this.password)) {
       this.navCtrl.setRoot(TabsPage);
     }
   }

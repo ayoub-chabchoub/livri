@@ -15,7 +15,7 @@
       <button (click)="presentAlertConfirmProduct()" ion-button icon-only>
         <ion-icon name="ios-trash"></ion-icon>
       </button>
-     
+
     </ion-buttons>
   </ion-navbar>
 
@@ -24,28 +24,32 @@
 
 <ion-content padding class="getstart1">
 
-    <ion-item>
-        <ion-label>name : </ion-label>
-        <ion-label type="text">{{product.NAME}}</ion-label>
-      </ion-item>
+  <ion-item>
+    <ion-label>name : </ion-label>
+    <ion-label type="text">{{product.NAME}}</ion-label>
+  </ion-item>
 
-      <ion-item>
-          <ion-label>weight : </ion-label>
-          <ion-label type="number" >{{product.WEIGHT}}</ion-label>
-      </ion-item>
+  <ion-item>
+    <ion-label>weight : </ion-label>
+    <ion-label type="number">{{product.WEIGHT}}</ion-label>
+  </ion-item>
 
-      <ion-item>
-        <ion-label>unit : </ion-label>
-        <ion-label type="text">{{product.UNIT}}</ion-label>
-       </ion-item>
+  <ion-item>
+    <ion-label>unit : </ion-label>
+    <ion-label type="text">{{product.UNIT}}</ion-label>
+  </ion-item>
 
-        <ion-item>
-          <ion-label>price : </ion-label>
-          <ion-label type="number" >{{product.PRICE}}</ion-label>
-       </ion-item>
-       <ion-item>
-          <ion-label>stock : </ion-label>
-          <ion-label type="number" >{{product.STOCK}}</ion-label>
-       </ion-item>
+  <ion-item>
+    <ion-label>price : </ion-label>
+    <ion-label type="number">{{product.PRICE}}</ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-label>stock : </ion-label>
+    <ion-label type="number">{{product.STOCK}}</ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-label>pack : </ion-label>
+    <ion-label type="number">{{product.PACK}}</ion-label>
+  </ion-item>
 
 </ion-content>

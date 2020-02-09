@@ -35,10 +35,10 @@
         <ion-col col-4>
           <ion-label style="font-size:4vw;">produit</ion-label>
         </ion-col>
-        <ion-col col-2>
+        <ion-col col-3>
           <ion-label style="font-size:4vw;">qté</ion-label>
         </ion-col>
-        <ion-col col-3>
+        <ion-col col-2>
           <ion-label style="font-size:4vw;">prix</ion-label>
         </ion-col>
         <ion-col col-3>
@@ -115,7 +115,7 @@
                       </ion-item>
                          -->
                       </ion-col>
-                      <ion-col col-2 class="list_table" >
+                      <ion-col col-3 class="list_table" >
                         <ion-input 
                        
                         *ngIf="product[i]"
@@ -127,7 +127,7 @@
                       </ion-col>
 
                       <!-- fdddddddddddddddddddddddddddddddddddddddd-->
-                      <ion-col col-3 class="list_table" >
+                      <ion-col col-2 class="list_table" >
                         <ion-input 
                        
                         *ngIf="product[i]"
@@ -153,6 +153,7 @@
 
             <!-- Allow generated input field to be removed -->
           <ion-row>
+              <ion-col col-4>
             <span
                float-right
                ion-button
@@ -164,6 +165,14 @@
                <ion-icon name="close"></ion-icon>
                Supprimer
             </span>
+          </ion-col>
+            <ion-col col-2>
+              <span float-right ion-button style="background-color: rgba(245, 245, 245, 0.8);" clear *ngIf="product[i] && product[i].PACK>1"
+                 (click)="multiplyNumber(i)">
+                
+                x{{product[i].PACK}}
+              </span>        
+          </ion-col>
           </ion-row>
         
         </ion-grid>
